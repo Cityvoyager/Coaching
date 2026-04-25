@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBTI Interaction Compass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1814;
+  --ink2: #5c5850;
+  --ink3: #9c9890;
+  --paper: #faf8f4;
+  --paper2: #f0ede7;
+  --paper3: #e4e0d8;
+  --accent: #8b6f47;
+  --accent2: #c4a882;
+  --gold: #b8933a;
+  --blue: #3d5a8a;
+  --teal: #2d7a6a;
+  --rose: #8a3d5a;
+  --purple: #5a3d8a;
+  --border: rgba(26,24,20,0.12);
+  --border2: rgba(26,24,20,0.22);
+  --r: 6px;
+  --rlg: 10px;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f0ece4;
+    --ink2: #a8a49c;
+    --ink3: #686460;
+    --paper: #18160f;
+    --paper2: #201e17;
+    --paper3: #2a2820;
+    --accent: #c4a882;
+    --accent2: #8b6f47;
+    --border: rgba(240,236,228,0.1);
+    --border2: rgba(240,236,228,0.2);
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--paper2);
+  border-bottom: 0.5px solid var(--border2);
+  padding: 20px 24px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.logo span { color: var(--accent); font-style: italic; }
+.mode-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--paper3);
+  border-radius: 999px;
+  padding: 3px;
+  margin-left: auto;
+}
+.mode-tab {
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--ink2);
+  font-family: var(--font-body);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.mode-tab.active {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* ── Main ── */
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+/* ── Section headers ── */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* ── Type selector grid ── */
+.selector-wrap {
+  margin-bottom: 24px;
+}
+.selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.temp-pills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.temp-pill {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 0.5px solid var(--border2);
+  background: transparent;
+  cursor: pointer;
+  color: var(--ink3);
+  font-family: var(--font-body);
+  transition: all 0.15s;
+}
+.temp-pill.active { background: var(--paper3); color: var(--ink); border-color: var(--border2); }
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.type-btn {
+  padding: 10px 6px 8px;
+  border-radius: var(--r);
+  border: 0.5px solid var(--border);
+  background: var(--paper);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  font-family: var(--font-body);
+  position: relative;
+}
+.type-btn:hover { background: var(--paper2); border-color: var(--border2); }
+.type-btn.sel-a { border: 2px solid var(--blue); background: var(--paper2); }
+.type-btn.sel-b { border: 2px solid var(--rose); background: var(--paper2); }
+.type-btn.sel-both { border: 2px solid var(--gold); background: var(--paper2); }
+.type-btn.dimmed { opacity: 0.35; }
+.type-code { font-size: 14px; font-weight: 500; color: var(--ink); }
+.type-name { font-size: 9px; color: var(--ink3); margin-top: 2px; }
+.sel-dot {
+  position: absolute;
+  top: 5px; right: 6px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  display: none;
+}
+.type-btn.sel-a .sel-dot { display: block; background: var(--blue); }
+.type-btn.sel-b .sel-dot { display: block; background: var(--rose); }
+.type-btn.sel-both .sel-dot { display: block; background: var(--gold); }
+
+/* ── Selection bar ── */
+.sel-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.sel-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--rlg);
+  font-size: 14px;
+  font-weight: 500;
+  border: 0.5px solid;
+}
+.sel-chip-a { border-color: var(--blue); color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, transparent); }
+.sel-chip-b { border-color: var(--rose); color: var(--rose); background: color-mix(in srgb, var(--rose) 8%, transparent); }
+.sel-chip button {
+  background: none; border: none; cursor: pointer;
+  font-size: 14px; color: inherit; padding: 0; line-height: 1;
+  opacity: 0.6;
+}
+.sel-chip button:hover { opacity: 1; }
+.sel-arrow { font-size: 20px; color: var(--ink3); }
+.sel-hint { font-size: 13px; color: var(--ink3); font-style: italic; }
+
+/* ── Single type panel ── */
+.single-panel {
+  display: none;
+}
+.single-panel.visible { display: block; }
+
+/* ── Interaction panel ── */
+.interact-panel {
+  display: none;
+}
+.interact-panel.visible { display: block; }
+
+/* ── Card system ── */
+.card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--rlg);
+  background: var(--paper);
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-icon {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.icon-common { background: color-mix(in srgb, var(--teal) 15%, transparent); color: var(--teal); }
+.icon-friction { background: color-mix(in srgb, var(--rose) 15%, transparent); color: var(--rose); }
+.icon-work { background: color-mix(in srgb, var(--blue) 15%, transparent); color: var(--blue); }
+.icon-private { background: color-mix(in srgb, var(--purple) 15%, transparent); color: var(--purple); }
+.icon-ask { background: color-mix(in srgb, var(--gold) 15%, transparent); color: var(--gold); }
+.icon-avoid { background: color-mix(in srgb, var(--rose) 15%, transparent); color: var(--rose); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 600px) {
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+
+.mini-card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px;
+}
+.mini-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ── Lists ── */
+.dot-list { list-style: none; }
+.dot-list li {
+  font-size: 13.5px;
+  color: var(--ink2);
+  padding: 5px 0;
+  border-bottom: 0.5px solid var(--border);
+  line-height: 1.5;
+  display: flex;
+  gap: 8px;
+}
+.dot-list li:last-child { border-bottom: none; }
+.dot-list li::before {
+  content: "–";
+  color: var(--ink3);
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+/* ── Compatibility score ── */
+.compat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.compat-types {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.compat-type-badge {
+  font-family: var(--font-display);
+  font-size: 28px;
+  padding: 6px 16px;
+  border-radius: var(--r);
+}
+.badge-a { background: color-mix(in srgb, var(--blue) 12%, transparent); color: var(--blue); border: 0.5px solid var(--blue); }
+.badge-b { background: color-mix(in srgb, var(--rose) 12%, transparent); color: var(--rose); border: 0.5px solid var(--rose); }
+.compat-x { font-size: 22px; color: var(--ink3); font-family: var(--font-display); }
+
+.compat-score-wrap {
+  text-align: center;
+}
+.compat-score {
+  font-family: var(--font-display);
+  font-size: 38px;
+  color: var(--ink);
+  line-height: 1;
+}
+.compat-score-label { font-size: 11px; color: var(--ink3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.score-bar-wrap { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; }
+.score-bar-bg { flex: 1; height: 4px; background: var(--paper3); border-radius: 2px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+.score-bar-label { font-size: 11px; color: var(--ink3); width: 80px; text-align: right; }
+
+.dynamic-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 0.5px solid;
+  margin: 0 4px 4px 0;
+}
+
+/* ── Context switcher ── */
+.context-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 0.5px solid var(--border2);
+  margin-bottom: 18px;
+  overflow-x: auto;
+}
+.ctxb {
+  font-size: 13px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--ink3);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  font-family: var(--font-body);
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.ctxb.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+.ctx-section { display: none; }
+.ctx-section.active { display: block; }
+
+/* ── Prose ── */
+.prose {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.7;
+}
+
+/* ── Shared functions display ── */
+.func-overlap {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.func-tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 0.5px solid;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.func-tag .func-role { opacity: 0.6; font-size: 10px; }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--ink3);
+}
+.empty-state .big { font-family: var(--font-display); font-size: 36px; margin-bottom: 8px; color: var(--ink3); opacity: 0.4; }
+.empty-state p { font-size: 14px; line-height: 1.6; }
+
+/* ── Single type detail tabs ── */
+.stab-row {
+  display: flex;
+  gap: 0;
+  border-bottom: 0.5px solid var(--border2);
+  margin-bottom: 18px;
+  overflow-x: auto;
+}
+.stab {
+  font-size: 13px;
+  padding: 8px 14px;
+  cursor: pointer;
+  color: var(--ink3);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  font-family: var(--font-body);
+  background: none;
+  border-top: none; border-left: none; border-right: none;
+}
+.stab.active { color: var(--ink); border-bottom-color: var(--accent); }
+.stab-section { display: none; }
+.stab-section.active { display: block; }
+
+/* ── Tagline ── */
+.type-tagline {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.func-stack-display {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.fsd-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 0.5px solid;
+  background: transparent;
+}
+
+/* ── avoid tags ── */
+.avoid-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: var(--r);
+  background: color-mix(in srgb, var(--rose) 10%, transparent);
+  color: var(--rose);
+  border: 0.5px solid color-mix(in srgb, var(--rose) 30%, transparent);
+  margin: 3px;
+}
+.good-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: var(--r);
+  background: color-mix(in srgb, var(--teal) 10%, transparent);
+  color: var(--teal);
+  border: 0.5px solid color-mix(in srgb, var(--teal) 30%, transparent);
+  margin: 3px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">MBTI <span>Interaction</span> Compass</div>
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="interact">Two-type dynamics</button>
+      <button class="mode-tab" data-mode="single">Single type profile</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TYPE SELECTORS -->
+  <div id="mode-interact">
+
+    <div class="selector-wrap">
+      <div class="selector-header">
+        <span class="section-label" id="grid-instruction">Select your type (blue), then theirs (red)</span>
+        <div class="temp-pills" id="temp-filter">
+          <button class="temp-pill active" data-temp="all">All</button>
+          <button class="temp-pill" data-temp="NT">NT</button>
+          <button class="temp-pill" data-temp="NF">NF</button>
+          <button class="temp-pill" data-temp="SJ">SJ</button>
+          <button class="temp-pill" data-temp="SP">SP</button>
+        </div>
+      </div>
+      <div class="type-grid" id="type-grid"></div>
+    </div>
+
+    <div class="sel-bar" id="sel-bar">
+      <div id="chip-a" class="sel-chip sel-chip-a" style="display:none">
+        <span id="chip-a-name">—</span>
+        <button onclick="clearType('a')">✕</button>
+      </div>
+      <div class="sel-arrow" style="display:none" id="arrow-sep">↔</div>
+      <div id="chip-b" class="sel-chip sel-chip-b" style="display:none">
+        <span id="chip-b-name">—</span>
+        <button onclick="clearType('b')">✕</button>
+      </div>
+      <span class="sel-hint" id="sel-hint">Select your type first</span>
+    </div>
+
+    <div class="interact-panel" id="interact-panel"></div>
+    <div class="empty-state" id="empty-state">
+      <div class="big">↑</div>
+      <p>Select two types above to explore<br>how they connect, clash, and grow together.</p>
+    </div>
+
+  </div>
+
+  <!-- SINGLE TYPE MODE -->
+  <div id="mode-single" style="display:none">
+    <div class="selector-wrap">
+      <div class="selector-header">
+        <span class="section-label">Select a type to explore</span>
+        <div class="temp-pills" id="temp-filter-single">
+          <button class="temp-pill active" data-temp="all">All</button>
+          <button class="temp-pill" data-temp="NT">NT</button>
+          <button class="temp-pill" data-temp="NF">NF</button>
+          <button class="temp-pill" data-temp="SJ">SJ</button>
+          <button class="temp-pill" data-temp="SP">SP</button>
+        </div>
+      </div>
+      <div class="type-grid" id="type-grid-single"></div>
+    </div>
+    <div class="single-panel" id="single-panel"></div>
+  </div>
+
+</div>
+
+<script>
+// ────────────────────────────────────────────────────────────────────
+// TYPE DATA
+// ────────────────────────────────────────────────────────────────────
+const TYPES = {
+  INTJ:{label:"Architect",temp:"NT",funcs:["Ni","Te","Fi","Se"],
+    tagline:"Visionary strategist with an iron will",
+    inner:{thoughts:["The world as I see it is rarely as it should be","Every system has a flaw worth fixing","I already know how this ends","Most people aren't thinking far enough ahead"],desires:["Mastery and autonomy","To architect a future others haven't imagined","To be understood without having to explain"],feelings:"Emotions are real but processed privately — they fuel conviction rather than outward expression"},
+    interests:["Systems thinking, long-range strategy","Philosophy of mind, metaphysics","Architecture, design, engineering","History of power and geopolitics","Rare expertise: languages, niche sciences"],
+    questions:["What is the most efficient path to X outcome?","Why does this system fail and how should it be redesigned?","What will matter in 20 years that nobody cares about today?","How do I ensure I'm not deceiving myself?"],
+    work_context:{good:["Strategic planning sessions","Independent deep-work blocks","Research, analysis, design","Roles with clear authority and scope"],avoid_ask:["How do you feel about this?","Can we just brainstorm freely?","What does everyone think?"],avoid_offer:["Unstructured social mixers","Group validation exercises","Excessive check-ins","Vague open-ended projects"]},
+    private_context:{good:["One-on-one intellectual conversation","Museum, architecture, nature walks","Books, documentaries, chess","Debate over dinner"],avoid_ask:["Let's just hang out and see what happens","Can you open up more?","Why are you so quiet?"],avoid_offer:["Loud parties","Icebreaker games","Forced small talk","Overscheduled social days"]}},
+
+  INTP:{label:"Logician",temp:"NT",funcs:["Ti","Ne","Si","Fe"],
+    tagline:"Theoretical mind endlessly mapping possibility",
+    inner:{thoughts:["Wait, what if I'm wrong about the foundation of everything?","There must be a more elegant explanation","I've been thinking about this for three days without telling anyone","Most people confuse correlation with causation"],desires:["Complete intellectual freedom","To understand things at their deepest level","To be accepted without needing to perform socially"],feelings:"Feelings exist as a background signal, surfacing as sudden intense connection or unexpected loneliness"},
+    interests:["Logic, mathematics, linguistics","Philosophy of science","Programming, systems design","Speculative fiction, thought experiments","Trivia that becomes obsession"],
+    questions:["Is this internally consistent?","What's the simplest axiom from which this all follows?","How does language shape what we can think?","Is my model of reality actually mine or borrowed?"],
+    work_context:{good:["Open-ended research or problem-solving","Roles with flexible hours and independence","Whiteboard sessions with smart peers","Building systems from scratch"],avoid_ask:["What's your 5-year plan?","Can you present this to the whole team?","Just trust the process"],avoid_offer:["Repetitive administrative work","Rigid time management systems","Social performance expectations","Meetings without clear intellectual purpose"]},
+    private_context:{good:["Deep-dive conversation on any topic","Puzzle games, strategy games","Exploring niche museums or documentaries","Philosophy reading groups"],avoid_ask:["What do you feel about this?","Why can't you just relax and not overthink?","Are you okay? You seem distant"],avoid_offer:["Forced socializing","Emotional processing without intellectual framing","Loud, high-energy environments"]}},
+
+  ENTJ:{label:"Commander",temp:"NT",funcs:["Te","Ni","Se","Fi"],
+    tagline:"Born to lead, build, and bend the world to a vision",
+    inner:{thoughts:["Why is no one seeing the obvious move?","Incompetence is the only thing I truly cannot tolerate","I have already decided — now everyone needs to catch up","This needs to be completely restructured"],desires:["Decisive authority over meaningful outcomes","To build things that outlast them","To be surrounded by equally capable people"],feelings:"Feelings are data, not destinations — processed quickly and used to adjust strategy"},
+    interests:["Leadership theory, organizational design","Macro-economics, geopolitics","Competitive sports and martial traditions","Legal and philosophical frameworks of power","Biography of historical leaders"],
+    questions:["What is the decisive constraint in this system?","How do I build a team that doesn't need me?","When does ruthlessness become a necessary virtue?","What is worth actually fighting for?"],
+    work_context:{good:["Strategic leadership roles","High-stakes negotiation","Building and scaling teams","Presenting to boards and executives","Solving complex organizational problems"],avoid_ask:["Can we slow down and consider everyone's feelings?","Don't you think you're being too direct?","What if we just stay where we are?"],avoid_offer:["Subordinate roles without growth","Vague mandates","Bureaucratic gatekeeping","Low-stakes, low-impact work"]},
+    private_context:{good:["Competitive sport or physical challenge","Strategy board games or poker","Travel with clear purpose and discovery","Intellectual sparring over dinner"],avoid_ask:["Why do you need to win everything?","Can't you just relax?","Why are you always working?"],avoid_offer:["Passive leisure","Drama without resolution","Unstructured social time with no agenda"]}},
+
+  ENTP:{label:"Debater",temp:"NT",funcs:["Ne","Ti","Fe","Si"],
+    tagline:"Idea machine who loves dismantling every assumption",
+    inner:{thoughts:["But what if the opposite is also true?","I could argue either side of this","Someone needs to challenge this groupthink","I'm bored — let me introduce a complication"],desires:["Intellectual sparring and colliding ideas","Freedom from routine and fixed commitment","To be the most interesting person in the room"],feelings:"Social energy and warmth exist but are subordinate to intellectual excitement — feelings arrive late and strong"},
+    interests:["Debate, rhetoric, persuasion","Cross-disciplinary synthesis","Entrepreneurship, disruption","Comedy, satire, wit","Emerging technology, fringe science"],
+    questions:["What assumption is everyone making that nobody's questioned?","How many different ways can I frame this problem?","Is devil's advocacy always honest?","Why do I lose interest once I've solved it?"],
+    work_context:{good:["Strategy consulting, innovation roles","Pitching ideas, negotiation","Startup environments","Cross-functional projects","Roles where persuasion is a core skill"],avoid_ask:["Can you just stick to the plan?","Stop playing devil's advocate","Why can't you follow through?"],avoid_offer:["Repetitive execution work","Highly structured corporate environments","Projects requiring sustained precision without creativity"]},
+    private_context:{good:["Debate or trivia nights","Stand-up comedy shows","Road trips or spontaneous travel","Discussing ideas at a bar or over coffee"],avoid_ask:["Can you be more serious for once?","Why do you always have to argue?","Don't you care about how people feel?"],avoid_offer:["Quiet routine evenings","Watching TV without conversation","Slow-paced activities without mental engagement"]}},
+
+  INFJ:{label:"Advocate",temp:"NF",funcs:["Ni","Fe","Ti","Se"],
+    tagline:"Rare seer who holds humanity's pain and potential",
+    inner:{thoughts:["I sense something is wrong before anyone says it","I already know what this person needs","The world is capable of so much more compassion","I am exhausted from absorbing everyone else's feelings"],desires:["Deep, soulful connection with a select few","To catalyze genuine transformation in others","To be truly known without having to explain themselves"],feelings:"Feelings are the atmosphere they breathe — others' emotions are nearly indistinguishable from their own"},
+    interests:["Psychology, depth therapy, shadow work","Mythology, symbolism, archetypes","Social justice, humanitarian causes","Writing, poetry, inner journaling","Spirituality and consciousness"],
+    questions:["What is this person not saying but desperately needs to?","What is my purpose in this moment?","How do I protect my energy without closing my heart?","Is this intuition or projection?"],
+    work_context:{good:["Counseling, mentoring, coaching roles","Vision and strategy with a human-centered lens","Writing, editing, meaning-making work","Advocacy, policy, NGO work"],avoid_ask:["Can you just be more pragmatic?","Why does everything need to be so meaningful?","Can you work faster without so much reflection?"],avoid_offer:["Purely transactional roles","High-volume surface-level interactions","Environments without purpose or ethics","Open-plan noise-heavy offices"]},
+    private_context:{good:["Long one-on-one conversations","Walks in nature","Reading, art museums, meditation","Spiritual or philosophical groups"],avoid_ask:["Why are you always so intense?","Can't you just be fun?","Why do you need so much alone time?"],avoid_offer:["Large loud parties","Superficial socializing","High-stimulation environments for extended periods"]}},
+
+  INFP:{label:"Mediator",temp:"NF",funcs:["Fi","Ne","Si","Te"],
+    tagline:"Idealist poet navigating a world that doesn't match inner truth",
+    inner:{thoughts:["Does this align with who I am?","I feel something profound but cannot name it","Most people are just not asking the deep questions","I would rather be misunderstood than betray my values"],desires:["Authentic self-expression and freedom to evolve","To make something beautiful or meaningful","To be loved exactly as they are"],feelings:"Feelings are the primary reality — the world is experienced through an internal moral and aesthetic filter"},
+    interests:["Creative writing, poetry, fiction","Philosophy of ethics and identity","Music that carries emotional weight","Nature, solitude, contemplative spaces","Mental health, healing, personal mythology"],
+    questions:["Is this true to who I am?","What does it mean to live authentically?","Why do I feel most understood by characters in fiction?","How do I contribute without losing myself?"],
+    work_context:{good:["Creative or therapeutic roles","Writing, design, editorial","Advocacy, education, arts","Autonomous projects with clear personal meaning"],avoid_ask:["Just get it done — it doesn't need to mean something","Can you set aside your feelings for this?","Why is this taking so long?"],avoid_offer:["Metrics-first environments without meaning","Roles requiring emotional suppression","Work without creative autonomy"]},
+    private_context:{good:["Sharing music, books, films","Nature walks or slow travel","Deep reflective conversation","Creating something together — writing, cooking, art"],avoid_ask:["Why do you take everything so personally?","Can't you just be more practical?","You're too sensitive"],avoid_offer:["Competitive or confrontational activities","Loud, relentless social environments","Activities with no emotional or aesthetic resonance"]}},
+
+  ENFJ:{label:"Protagonist",temp:"NF",funcs:["Fe","Ni","Se","Ti"],
+    tagline:"Natural leader who sees and serves the best in everyone",
+    inner:{thoughts:["I can feel what this group needs right now","I care so deeply about this person's potential","Am I helping because I want to, or because I need to be needed?","The world changes one meaningful conversation at a time"],desires:["To inspire people toward their highest selves","Harmony that doesn't require pretending","To lead with love and leave a legacy"],feelings:"Emotions flow outward constantly — the ENFJ is the atmosphere of the room"},
+    interests:["Education, coaching, mentorship","Social movements and community organizing","Literature, storytelling, performing arts","Cross-cultural communication","Psychology of groups and belonging"],
+    questions:["What does this person need to hear that nobody else will say?","How do I lead without controlling?","When does caring become losing myself?","What does collective healing actually look like?"],
+    work_context:{good:["Teaching, coaching, leadership development","Community organizing and advocacy","Facilitation, team dynamics roles","Public speaking, communications"],avoid_ask:["Why can't you be less emotional at work?","Stop trying to inspire everyone and just execute","Why do you care so much what people think?"],avoid_offer:["Isolated, solo roles","Work without human impact","Hyper-competitive cutthroat cultures"]},
+    private_context:{good:["Meaningful group gatherings","Volunteering together","Cultural events, theater, music","Heartfelt one-on-one conversation"],avoid_ask:["Why do you always make everything about other people?","Can you just relax and not organize everyone?"],avoid_offer:["Cold, transactional social dynamics","Situations requiring constant detachment"]}},
+
+  ENFP:{label:"Campaigner",temp:"NF",funcs:["Ne","Fi","Te","Si"],
+    tagline:"Boundless enthusiast who sees magic in everything and everyone",
+    inner:{thoughts:["What if there's a completely different way to see this?","I feel a deep connection to this stranger I just met","I have seven new project ideas and no deadlines","This conversation is the best thing that's happened all week"],desires:["Meaning, connection, and infinite possibility","To be loved for exactly who they are becoming","Freedom to explore without judgment"],feelings:"Feelings are vivid, immediate, and world-coloring — Fi means everything is felt personally and deeply"},
+    interests:["Personal growth and transformation","Travel, culture, human stories","Creative entrepreneurship","Philosophy of freedom and meaning","Performance, expression, improvisation"],
+    questions:["What is the most meaningful thing I could do with this moment?","Am I following someone else's dream by mistake?","How do I hold space for others without abandoning myself?","What if commitment and freedom aren't opposites?"],
+    work_context:{good:["Creative, entrepreneurial, expressive roles","Brainstorming and idea generation","People-facing roles with variety","Teaching, facilitation, journalism"],avoid_ask:["Can you stop changing direction?","Why can't you just be consistent?","Focus — just this one thing"],avoid_offer:["Rigid routine without novelty","Pure execution roles without ideation","Environments penalizing emotional expression"]},
+    private_context:{good:["Spontaneous adventures","Festivals, live music, cultural events","Deep conversations anywhere","Creative collaboration — making, writing, cooking"],avoid_ask:["Why are you always so enthusiastic?","Can you just commit to one thing?"],avoid_offer:["Predictable repetitive plans","Activities requiring sustained quiet focus","Cold or emotionally flat environments"]}},
+
+  ISTJ:{label:"Logistician",temp:"SJ",funcs:["Si","Te","Fi","Ne"],
+    tagline:"Reliable backbone of every institution that actually works",
+    inner:{thoughts:["There's a reason this is done this way","Someone has to uphold the standard","I said I would do it, so I will","If it isn't documented, it didn't happen"],desires:["Stability, order, and integrity","To be depended upon — completely","Mastery of an important, reliable domain"],feelings:"Feelings are private and deeply loyal — expressed through service and reliability rather than words"},
+    interests:["History, tradition, institutional knowledge","Law, finance, logistics","Military history, procedural literature","Genealogy, cultural heritage","Engineering and applied problem-solving"],
+    questions:["What is the correct procedure here?","How do I honor what was built before me?","Have I lived with integrity today?","What will I be responsible for in 20 years?"],
+    work_context:{good:["Project management, compliance, operations","Legal, financial, administrative roles","Roles with clear accountability","Long-term systematic work"],avoid_ask:["Can we just improvise this?","Why does it matter how it's documented?","Let's throw out the rulebook"],avoid_offer:["Chaotic unstructured environments","Roles without clear standards","Constant change without justification"]},
+    private_context:{good:["Shared routines and traditions","History museums, historical sites","Reliable activities they've done before","Quiet dinners or gatherings with trusted people"],avoid_ask:["Why are you so rigid?","Can't you be more spontaneous?","Why do you care so much about doing things correctly?"],avoid_offer:["Last-minute plans","Unpredictable social environments","Activities that disregard tradition or procedure"]}},
+
+  ISFJ:{label:"Defender",temp:"SJ",funcs:["Si","Fe","Ti","Ne"],
+    tagline:"Selfless guardian who quietly holds the world together",
+    inner:{thoughts:["Is everyone alright?","I remember exactly how this made them feel last time","I'll do it myself — it's easier than asking","I give and give, but does anyone notice?"],desires:["For the people they love to be safe and cared for","To belong deeply to a community","Acknowledgment — quietly longed for, rarely asked for"],feelings:"Feelings are abundant, deeply private, and often directed entirely outward — ISFJs feel others' pain as their own"},
+    interests:["Caregiving, medicine, nursing, social work","Domestic arts, cooking, interiors","Local history, genealogy, community memory","Faith traditions and ritual","Children's development, education"],
+    questions:["Is everyone in this room okay?","How do I stop taking on more than I can hold?","Why is it so hard for me to say no?","What do I actually want — just for me?"],
+    work_context:{good:["Healthcare, social work, education","Supportive administrative roles","Community and care coordination","Roles requiring attention to detail and continuity"],avoid_ask:["Why can't you be more assertive?","Stop worrying about everyone else","Why does this take so long — just decide"],avoid_offer:["High-conflict competitive environments","Work requiring emotional detachment","Roles without human connection or care"]},
+    private_context:{good:["Home-cooked meals together","Familiar, comfortable activities","Helping with something meaningful","Gentle, low-pressure gatherings"],avoid_ask:["Why do you always have to take care of everyone?","Can you stop fussing?","Why are you so careful about everything?"],avoid_offer:["High-risk or adrenaline activities","Forced spontaneity","Loud, chaotic environments"]}},
+
+  ESTJ:{label:"Executive",temp:"SJ",funcs:["Te","Si","Ne","Fi"],
+    tagline:"Efficient enforcer of order who gets things done",
+    inner:{thoughts:["This could be done better — let me show you how","Feelings are fine after the deadline","Rules exist for good reasons","Who is in charge here and why aren't they doing their job?"],desires:["Authority to implement the right systems","Respect earned through competence and reliability","A world that functions properly"],feelings:"Feelings are acknowledged but subordinated to responsibility — expressed through protection and provision"},
+    interests:["Business management, military history","Law, policy, civic institutions","Sports and physical competition","Family tradition, cultural ceremony","Finance, real estate, applied economics"],
+    questions:["What is the most efficient path to the right outcome?","Who is accountable when this fails?","How do I teach others to take responsibility?","Have I done my duty today?"],
+    work_context:{good:["Management, operations, compliance","Structured leadership roles","Legal, financial, governmental work","Roles requiring accountability and decision-making"],avoid_ask:["Can we question the whole system?","Why do you need such rigid structures?","Shouldn't you check in with how people feel?"],avoid_offer:["Ambiguous, unstructured roles","Work without clear KPIs or accountability","Environments where rules are seen as optional"]},
+    private_context:{good:["Sports events, physical challenge","Organized social events with a purpose","Family traditions, holiday rituals","Community service or leadership"],avoid_ask:["Can't you ever not be in charge?","Why are you always so serious?"],avoid_offer:["Unplanned, drifting social time","Emotionally intensive processing without practical resolution"]}},
+
+  ESFJ:{label:"Consul",temp:"SJ",funcs:["Fe","Si","Ne","Ti"],
+    tagline:"Social glue who remembers every birthday and tends the fabric of community",
+    inner:{thoughts:["Is everyone getting along?","I can feel when the mood in the room shifts","I need to know that I am valued","What will people think?"],desires:["Belonging and social warmth","To be appreciated for how much they give","A community where everyone has a place"],feelings:"Feelings are the primary medium — Fe means the emotional climate is read, managed, and shaped constantly"},
+    interests:["Hosting, event planning, community rituals","Fashion, aesthetics, social presentation","Education, healthcare, public service","Family storytelling and cultural traditions","Volunteering, civic participation"],
+    questions:["Does everyone feel included?","Am I too much, or not enough?","How do I hold boundaries without feeling like I've failed someone?","What do I actually think versus what I've absorbed from others?"],
+    work_context:{good:["HR, community management, healthcare","Event coordination, hospitality","Teaching, social services","Collaborative team environments"],avoid_ask:["Stop worrying about what people think","Why can't you make a decision without consensus?","Does every conflict need to be resolved harmoniously?"],avoid_offer:["Isolated solo work","Environments with persistent conflict","Roles without human connection"]},
+    private_context:{good:["Hosting a gathering or meal","Community events, volunteering","Comfortable familiar social routines","Celebrating others' milestones"],avoid_ask:["Why are you so worried about what everyone thinks?","Can you just not organize everything for once?"],avoid_offer:["Cold, formal social settings","Activities where people are unfriendly or dismissive"]}},
+
+  ISTP:{label:"Virtuoso",temp:"SP",funcs:["Ti","Se","Ni","Fe"],
+    tagline:"Quiet craftsman who understands systems through touch and trial",
+    inner:{thoughts:["I need to take this apart to understand it","Don't give me theory — show me how it actually works","I'd rather do it alone than explain it twice","I'll figure it out by doing it"],desires:["Mastery of something tangible and real","Freedom from unnecessary obligation","To solve problems with elegance and minimal fuss"],feelings:"Feelings are processed through action — an ISTP shows care by fixing things, showing up, and doing"},
+    interests:["Mechanics, engineering, martial arts","Extreme sports, tactical games","Electronics, woodworking, weaponry","Motorcycles, cars, aircraft","Crisis response, field medicine"],
+    questions:["How does this actually work?","What is the cleanest solution with the fewest moving parts?","Why complicate what can be simple?","What would I do if the system broke completely?"],
+    work_context:{good:["Engineering, technical problem-solving","Field work and crisis response","Skilled trades and craftsmanship","Roles with real tangible outcomes"],avoid_ask:["Can you explain your feelings about the project?","Why do you need to work alone?","Can you attend all these alignment meetings?"],avoid_offer:["Lengthy meeting-heavy roles","Abstract conceptual work without tangible output","Emotionally demanding team dynamics"]},
+    private_context:{good:["Building or fixing something together","Outdoor adventure: hiking, motorsport, climbing","Tactical games, escape rooms","Low-key activity without social pressure"],avoid_ask:["Why are you so quiet?","Can you open up more?","Don't you care about this?"],avoid_offer:["Forced emotional sharing","Loud performative social events","Activities with no skill component"]}},
+
+  ISFP:{label:"Adventurer",temp:"SP",funcs:["Fi","Se","Ni","Te"],
+    tagline:"Gentle sensualist who lives in beauty and acts from the heart",
+    inner:{thoughts:["This moment is exactly enough","I know what I believe but I won't argue about it","I need to create something with my hands","The world is so beautiful — why doesn't everyone slow down?"],desires:["To live authentically, beautifully, and freely","To love and be loved without conditions","To create things that carry emotional truth"],feelings:"Feelings are the whole world — vast, private, poetic, and rarely fully communicated"},
+    interests:["Visual arts, music, dance, fashion","Nature, ecology, animals","Culinary arts, sensory experience","Alternative healing, bodywork","Personal ethics and quiet activism"],
+    questions:["Does this feel true to who I am?","Why do I hold back when I know what I want?","What am I trying to say in this piece?","How do I live more beauty into the world?"],
+    work_context:{good:["Art, design, craft, photography","Therapeutic or care-oriented roles","Nature-based work, animals, environment","Flexible creative environments"],avoid_ask:["Can you meet this aggressive deadline?","Why aren't you more assertive about your work?","Can you present your ideas more forcefully?"],avoid_offer:["High-pressure competitive environments","Roles requiring emotional suppression","Rigid routine without aesthetic or personal expression"]},
+    private_context:{good:["Nature walks, art galleries, concerts","Cooking or making something together","Spontaneous gentle adventures","Deep quiet conversation"],avoid_ask:["Why do you take so long to decide?","Why don't you speak up more?","You're too sensitive"],avoid_offer:["Confrontational or aggressive social dynamics","Loud overwhelming environments","Activities with no sensory beauty"]}},
+
+  ESTP:{label:"Entrepreneur",temp:"SP",funcs:["Se","Ti","Fe","Ni"],
+    tagline:"High-octane realist who lives in the rush of what's happening now",
+    inner:{thoughts:["I'll figure it out as it's happening","Rules are starting points, not endpoints","I can read this room in 30 seconds","Why plan when you can adapt?"],desires:["Adrenaline, impact, and winning","Freedom to act without asking permission","To be in the thick of real life"],feelings:"Feelings are fast, physical, and expressive — processed in motion rather than reflection"},
+    interests:["Business, sales, deal-making","High-risk sports, physical adventure","Social engineering, persuasion","Emergency response, hands-on medicine","Gambling, markets, tactical games"],
+    questions:["What's the actual situation right now?","How do I read this person's real intent?","What's the fastest path to what I want?","When does my impulsivity actually cost me?"],
+    work_context:{good:["Sales, trading, negotiations","Crisis response and operations","Entrepreneurship and deal-making","Real estate, markets, field leadership"],avoid_ask:["Can you slow down and think this through longer?","Why do you have to take such risks?","Can you document everything you're doing?"],avoid_offer:["Desk-bound administrative work","Slow bureaucratic decision-making","Low-stakes predictable environments"]},
+    private_context:{good:["High-energy physical activities","Bar, club, live events","Competitive sport or gambling","Action-first adventures with no long planning"],avoid_ask:["Why can't you slow down?","Do you have to turn everything into a competition?","Why don't you think before you act?"],avoid_offer:["Passive, sedentary activities","Long reflective conversations without action","Emotionally heavy processing sessions"]}},
+
+  ESFP:{label:"Entertainer",temp:"SP",funcs:["Se","Fi","Te","Ni"],
+    tagline:"Spontaneous performer who makes every moment feel like a celebration",
+    inner:{thoughts:["Life is happening right now — join it","I can feel when someone needs to be cheered up","Why be somewhere that isn't alive?","I know I should plan, but planning feels like dying"],desires:["Joy, presence, and genuine human connection","To make people feel seen and lit up","Freedom to be exactly who they are in this moment"],feelings:"Feelings are generous, immediate, and fully embodied — the ESFP is their feelings"},
+    interests:["Performance, music, entertainment","Fashion, aesthetics, sensory beauty","People and their stories","Food, travel, celebration","Children, animals, caregiving"],
+    questions:["Is everyone having a good time?","Why can't I make myself prepare for the future?","What does this person need to feel right now?","When do I get to rest?"],
+    work_context:{good:["Entertainment, events, hospitality","Performance, sales, customer-facing roles","Teaching young children","Creative and expressive environments"],avoid_ask:["Can you do this alone without talking to anyone?","Why can't you stick to a routine?","Can you plan 6 months ahead?"],avoid_offer:["Isolated analytical roles","Heavy documentation or procedural work","Environments without human warmth"]},
+    private_context:{good:["Concerts, festivals, celebrations","Spontaneous outings","Dancing, cooking, playing games","Being the center of a warm social event"],avoid_ask:["Why are you always so loud?","Can you sit still for once?","Why don't you plan ahead?"],avoid_offer:["Quiet introspective evenings alone","Heavy analytical or conceptual discussions","Low-energy environments"]}}
+};
+
+const TYPE_ORDER = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
+
+const FUNC_COLORS = {
+  Ni:"#7F77DD", Ne:"#5a3d8a", Si:"#888780", Se:"#BA7517",
+  Ti:"#1D9E75", Te:"#378ADD", Fi:"#D4537E", Fe:"#8a3d5a"
+};
+
+// ────────────────────────────────────────────────────────────────────
+// COMPATIBILITY ENGINE
+// ────────────────────────────────────────────────────────────────────
+
+function getSharedFuncs(a, b) {
+  const fa = TYPES[a].funcs;
+  const fb = TYPES[b].funcs;
+  return fa.filter(f => fb.includes(f));
+}
+
+function getOpposingFuncs(a, b) {
+  const fa = TYPES[a].funcs;
+  const fb = TYPES[b].funcs;
+  return fa.filter(f => !fb.includes(f));
+}
+
+function calcScore(a, b) {
+  const fa = TYPES[a].funcs;
+  const fb = TYPES[b].funcs;
+  const shared = getSharedFuncs(a,b).length;
+  const sameTemp = TYPES[a].temp === TYPES[b].temp;
+  // dominant match
+  const domMatch = fa[0] === fb[0];
+  // complementary: one's dom is other's aux
+  const comp = (fa[0] === fb[1] || fa[1] === fb[0]);
+  // shadow: opposing dom/aux
+  const shadow = fa[0] !== fb[0] && fa[0] !== fb[1] && fa[1] !== fb[0];
+
+  let score = 40 + (shared * 10);
+  if (sameTemp) score += 10;
+  if (domMatch) score -= 5; // echo chamber risk
+  if (comp) score += 15;
+  if (shadow) score -= 10;
+  if (a === b) score = 70; // same type
+  return Math.min(95, Math.max(30, score));
+}
+
+function getDynamic(a, b) {
+  if (a === b) return { label: "Mirror", desc: "Same type — deep resonance but potential echo chamber. Shared strengths and shared blind spots.", tags: ["Instant rapport","Shared worldview","Risk: validation loop"] };
+  const fa = TYPES[a].funcs, fb = TYPES[b].funcs;
+  const ta = TYPES[a].temp, tb = TYPES[b].temp;
+  const domMatch = fa[0] === fb[0];
+  const comp = fa[0] === fb[1] || fa[1] === fb[0];
+  const sameTemp = ta === tb;
+
+  if (comp) return { label: "Complementary", desc: "One's dominant is the other's auxiliary — natural handoff of strengths, fluid collaboration, genuine mutual understanding.", tags: ["Natural flow","Complementary strengths","Mutual growth"] };
+  if (domMatch) return { label: "Echo Chamber", desc: "Same dominant function — immediate recognition and shared obsessions, but risk of reinforcing each other's blind spots.", tags: ["Fast connection","Shared passion","Watch blind spots"] };
+  if (sameTemp) return { label: "Temperament Kin", desc: "Same temperament group — aligned values and worldview even if the cognitive approach differs. Good foundation for trust.", tags: ["Shared values","Common ground","Different methods"] };
+  return { label: "Growth Edge", desc: "Opposing strengths — potential friction becomes fuel for growth when both parties are curious rather than defensive.", tags: ["High growth potential","Needs patience","Respect differences"] };
+}
+
+function generateInteraction(a, b) {
+  const ta = TYPES[a], tb = TYPES[b];
+  const fa = ta.funcs, fb = tb.funcs;
+  const shared = getSharedFuncs(a, b);
+  const dyn = getDynamic(a, b);
+  const score = calcScore(a, b);
+  const sameTemp = ta.temp === tb.temp;
+
+  // Common interests — intersection of interests and cognitive overlap
+  const commonInterests = [];
+  const aInt = new Set(ta.interests.map(i => i.toLowerCase()));
+  // Cross-reference by cognitive function similarity
+  if (fa.includes('Ne') || fb.includes('Ne')) commonInterests.push("Brainstorming new ideas and possibilities");
+  if (fa.includes('Ni') && fb.includes('Ni')) commonInterests.push("Long-range vision and pattern recognition");
+  if (fa.includes('Ti') || fb.includes('Ti')) commonInterests.push("Logical analysis and system-building");
+  if (fa.includes('Te') || fb.includes('Te')) commonInterests.push("Efficiency, strategy, and tangible outcomes");
+  if (fa.includes('Fi') && fb.includes('Fi')) commonInterests.push("Personal values, authenticity, and meaning");
+  if (fa.includes('Fe') || fb.includes('Fe')) commonInterests.push("People dynamics, social harmony, group wellbeing");
+  if (fa.includes('Se') || fb.includes('Se')) commonInterests.push("Hands-on experience, physical engagement, present-moment action");
+  if (fa.includes('Si') && fb.includes('Si')) commonInterests.push("Tradition, history, reliable systems and procedures");
+  if ((ta.temp==='NT'&&tb.temp==='NT')||(ta.temp==='NF'&&tb.temp==='NF')) commonInterests.push("Abstract ideas and conceptual frameworks");
+  if ((ta.temp==='SP'||tb.temp==='SP')) commonInterests.push("Practical, action-oriented, sensory experiences");
+
+  // Commonalities from shared functions
+  const commonalities = [];
+  if (shared.includes('Ni')) commonalities.push("Both think ahead — they connect to long-term meaning and pattern before acting");
+  if (shared.includes('Ne')) commonalities.push("Both love generating ideas and exploring possibility spaces");
+  if (shared.includes('Ti')) commonalities.push("Both value internal logical consistency — they'll spend time getting the framework right");
+  if (shared.includes('Te')) commonalities.push("Both care about measurable effectiveness and getting results");
+  if (shared.includes('Fi')) commonalities.push("Both have strong personal values and a need for authenticity");
+  if (shared.includes('Fe')) commonalities.push("Both are attuned to group dynamics and others' emotional states");
+  if (shared.includes('Si')) commonalities.push("Both rely on past experience, established systems, and continuity");
+  if (shared.includes('Se')) commonalities.push("Both are energized by hands-on, in-the-moment experience");
+  if (sameTemp) commonalities.push(`Same ${ta.temp} temperament — shared core worldview and natural common ground`);
+  if (commonalities.length === 0) commonalities.push("Both are human — differences can become a bridge if approached with curiosity");
+
+  // Friction points — from opposing dominant functions
+  const friction = [];
+  if (fa[0].startsWith('N') && fb[0].startsWith('S')) friction.push("Abstract (N) vs. concrete (S) tension — one wants to discuss what could be, the other what is");
+  if (fa[0].startsWith('S') && fb[0].startsWith('N')) friction.push("Concrete (S) vs. abstract (N) tension — one wants practical grounding, the other wants possibilities");
+  if (fa[0].startsWith('T') && fb[0].startsWith('F')) friction.push("Logic-first (T) vs. values-first (F) tension — decisions can feel cold vs. impractical to each other");
+  if (fa[0].startsWith('F') && fb[0].startsWith('T')) friction.push("Values-first (F) vs. logic-first (T) tension — one needs human meaning, the other needs rational structure");
+  if (fa[0]==='Te'&&fb[0]==='Ti') friction.push("External efficiency (Te) vs. internal consistency (Ti) — different definitions of what 'logical' means");
+  if (fa[0]==='Ti'&&fb[0]==='Te') friction.push("Internal framework (Ti) vs. external results (Te) — one cares about correctness, the other about impact");
+  if (fa[0]==='Fe'&&fb[0]==='Fi') friction.push("Group harmony (Fe) vs. personal authenticity (Fi) — tension between social conformity and individual values");
+  if (fa[0]==='Fi'&&fb[0]==='Fe') friction.push("Personal values (Fi) vs. group harmony (Fe) — may feel each other is either cold or sycophantic");
+  if (fa[0]==='Ni'&&fb[0]==='Se') friction.push("Long-term vision (Ni) vs. present-moment action (Se) — one wants to plan, the other wants to do");
+  if (fa[0]==='Se'&&fb[0]==='Ni') friction.push("Action now (Se) vs. future vision (Ni) — pace and priority will feel misaligned");
+  if (fa[0]==='Ne'&&fb[0]==='Si') friction.push("Novelty-seeking (Ne) vs. tradition-keeping (Si) — change vs. continuity as default modes");
+  if (fa[0]==='Si'&&fb[0]==='Ne') friction.push("Continuity-keeping (Si) vs. novelty-seeking (Ne) — reliability vs. innovation tension");
+  if (friction.length === 0) friction.push("Similar cognitive styles — main friction may arise from personality expression rather than structure");
+
+  // Work activities
+  const workActivities = [];
+  if (shared.some(f=>['Te','Ti'].includes(f))) workActivities.push("Co-designing a system, framework, or process");
+  if (shared.some(f=>['Ne','Ni'].includes(f))) workActivities.push("Strategic planning and future-focused problem-solving");
+  if (shared.some(f=>['Fe','Fi'].includes(f))) workActivities.push("Culture building, team wellbeing, values alignment work");
+  if (shared.some(f=>['Se','Si'].includes(f))) workActivities.push("Hands-on project execution and operational work");
+  if (fa.includes('Te')&&fb.includes('Ni')||fa.includes('Ni')&&fb.includes('Te')) workActivities.push("One provides vision, the other drives execution — excellent project pairing");
+  if (fa.includes('Ne')&&fb.includes('Ti')||fa.includes('Ti')&&fb.includes('Ne')) workActivities.push("Idea generation (Ne) refined by logical analysis (Ti) — strong R&D pair");
+  if (fa.includes('Fe')&&fb.includes('Ni')||fa.includes('Ni')&&fb.includes('Fe')) workActivities.push("Compassionate, human-centered leadership and strategic vision");
+  if (workActivities.length < 2) {
+    workActivities.push("Defining roles clearly before starting — reduces friction from different working styles");
+    workActivities.push("Short focused sprints where each plays to their strengths");
+  }
+
+  // Private activities
+  const privateActivities = [];
+  if (shared.some(f=>['Se','Si'].includes(f))) privateActivities.push("Shared physical activities — hiking, sport, cooking, craft");
+  if (shared.some(f=>['Ne','Ni'].includes(f))) privateActivities.push("Intellectual discussion, documentary nights, philosophical walks");
+  if (shared.some(f=>['Fe','Fi'].includes(f))) privateActivities.push("Deep conversation, creative collaboration, meaningful rituals");
+  if ((fa.includes('Se')||fb.includes('Se'))&&!(fa.includes('Si')&&fb.includes('Si'))) privateActivities.push("Spontaneous outings, trying new restaurants, live events");
+  if ((fa.includes('Si')||fb.includes('Si'))) privateActivities.push("Comfortable familiar settings — trusted restaurants, home gatherings, established routines");
+  if ((fa.includes('Ne')||fb.includes('Ne'))) privateActivities.push("Trying something entirely new — the idea of it as much as the thing itself");
+  if ((fa.includes('Fe')||fb.includes('Fe'))) privateActivities.push("Social gatherings where they can connect with others together");
+  if (privateActivities.length < 2) privateActivities.push("Low-pressure one-on-one time without an agenda");
+
+  // Good questions to ask
+  const goodQuestions = [];
+  if (fa.includes('Ni')||fb.includes('Ni')) goodQuestions.push("What do you think this is really pointing toward long-term?");
+  if (fa.includes('Ne')||fb.includes('Ne')) goodQuestions.push("What's the most unexpected way to look at this?");
+  if (fa.includes('Ti')||fb.includes('Ti')) goodQuestions.push("What's the underlying principle here that makes it work?");
+  if (fa.includes('Te')||fb.includes('Te')) goodQuestions.push("What outcome would actually make this worth it?");
+  if (fa.includes('Fi')||fb.includes('Fi')) goodQuestions.push("What matters most to you personally about this?");
+  if (fa.includes('Fe')||fb.includes('Fe')) goodQuestions.push("How do you think the others in this situation are experiencing it?");
+  if (fa.includes('Si')||fb.includes('Si')) goodQuestions.push("What's worked well before that we could draw on here?");
+  if (fa.includes('Se')||fb.includes('Se')) goodQuestions.push("What's actually happening right now that we should respond to?");
+
+  // Things to avoid
+  const avoidTopics = [];
+  if (!fa.includes('Fe')&&!fb.includes('Fe')) avoidTopics.push("Asking them to manage group emotions or 'keep the peace'");
+  if (!fa.includes('Ne')&&!fb.includes('Ne')) avoidTopics.push("Open-ended freewheeling brainstorming without a grounding point");
+  if (!fa.includes('Si')&&!fb.includes('Si')) avoidTopics.push("'This is how we've always done it' as justification");
+  if (!fa.includes('Se')&&!fb.includes('Se')) avoidTopics.push("Demanding immediate real-world action without reflection");
+  if (fa[0].startsWith('T')&&fb[0].startsWith('T')) avoidTopics.push("Expecting effusive emotional validation — both process feelings privately");
+  if (fa[0].startsWith('F')&&fb[0].startsWith('F')) avoidTopics.push("Cold purely logical framing — both need meaning alongside logic");
+  if (fa[0]==='Ni'||fb[0]==='Ni') avoidTopics.push("Pushing for immediate decisions before patterns have time to emerge");
+  if (fa[0]==='Se'||fb[0]==='Se') avoidTopics.push("Excessive theoretical abstraction without real-world relevance");
+  if (avoidTopics.length < 2) avoidTopics.push("Dismissing differences in pace or communication style");
+
+  return { score, dyn, shared, commonalities, friction, commonInterests, workActivities, privateActivities, goodQuestions, avoidTopics };
+}
+
+// ────────────────────────────────────────────────────────────────────
+// STATE
+// ────────────────────────────────────────────────────────────────────
+let mode = 'interact';
+let selA = null, selB = null;
+let singleSel = null;
+let tempFilter = 'all';
+let tempFilterSingle = 'all';
+let singleTab = 'inner';
+let ctxTab = 'overview';
+
+// ────────────────────────────────────────────────────────────────────
+// RENDER GRIDS
+// ────────────────────────────────────────────────────────────────────
+function renderGrid(gridId, filterTemp, clickFn, getClass) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  TYPE_ORDER.forEach(key => {
+    if (filterTemp !== 'all' && TYPES[key].temp !== filterTemp) return;
+    const btn = document.createElement('button');
+    btn.className = 'type-btn ' + getClass(key);
+    btn.innerHTML = `<span class="sel-dot"></span><div class="type-code">${key}</div><div class="type-name">${TYPES[key].label}</div>`;
+    btn.onclick = () => clickFn(key);
+    grid.appendChild(btn);
+  });
+}
+
+function getInteractClass(key) {
+  if (selA === key && selB === key) return 'sel-both';
+  if (selA === key) return 'sel-a';
+  if (selB === key) return 'sel-b';
+  if ((selA && !selB) || (selA && selB)) return '';
+  return '';
+}
+
+function getSingleClass(key) {
+  return singleSel === key ? 'sel-a' : '';
+}
+
+function handleInteractClick(key) {
+  if (!selA) { selA = key; }
+  else if (!selB && key !== selA) { selB = key; }
+  else if (key === selA) { selA = selB; selB = null; }
+  else if (key === selB) { selB = null; }
+  else { selB = key; }
+  renderGrid('type-grid', tempFilter, handleInteractClick, getInteractClass);
+  updateSelBar();
+  renderInteract();
+}
+
+function handleSingleClick(key) {
+  singleSel = key;
+  renderGrid('type-grid-single', tempFilterSingle, handleSingleClick, getSingleClass);
+  renderSingle();
+}
+
+function clearType(which) {
+  if (which === 'a') { selA = selB; selB = null; }
+  else { selB = null; }
+  renderGrid('type-grid', tempFilter, handleInteractClick, getInteractClass);
+  updateSelBar();
+  renderInteract();
+}
+
+function updateSelBar() {
+  const chipA = document.getElementById('chip-a');
+  const chipB = document.getElementById('chip-b');
+  const arrow = document.getElementById('arrow-sep');
+  const hint = document.getElementById('sel-hint');
+  const inst = document.getElementById('grid-instruction');
+
+  if (selA) {
+    chipA.style.display = 'flex';
+    document.getElementById('chip-a-name').textContent = selA + ' · ' + TYPES[selA].label;
+  } else { chipA.style.display = 'none'; }
+
+  if (selB) {
+    chipB.style.display = 'flex';
+    document.getElementById('chip-b-name').textContent = selB + ' · ' + TYPES[selB].label;
+    arrow.style.display = 'block';
+    hint.style.display = 'none';
+  } else {
+    chipB.style.display = 'none';
+    arrow.style.display = 'none';
+    hint.style.display = 'block';
+    hint.textContent = selA ? 'Now select their type (red)' : 'Select your type first';
+  }
+
+  inst.textContent = selA ? (selB ? 'Showing interaction dynamics' : 'Now select their type') : 'Select your type (blue), then theirs (red)';
+}
+
+// ────────────────────────────────────────────────────────────────────
+// RENDER INTERACTION
+// ────────────────────────────────────────────────────────────────────
+function renderInteract() {
+  const panel = document.getElementById('interact-panel');
+  const empty = document.getElementById('empty-state');
+  if (!selA || !selB) {
+    panel.classList.remove('visible');
+    empty.style.display = selA ? 'none' : 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  panel.classList.add('visible');
+
+  const data = generateInteraction(selA, selB);
+  const { score, dyn, shared, commonalities, friction, commonInterests, workActivities, privateActivities, goodQuestions, avoidTopics } = data;
+
+  const scoreColor = score >= 70 ? '#2d7a6a' : score >= 50 ? '#b8933a' : '#8a3d5a';
+  const scoreBars = [
+    { label: 'Shared language', val: shared.length / 4 * 100 },
+    { label: 'Cognitive fit', val: score },
+    { label: 'Growth potential', val: 100 - score + 30 > 100 ? 95 : 100 - score + 30 }
+  ];
+
+  const funcColors = shared.map(f => `<span class="func-tag" style="border-color:${FUNC_COLORS[f]};color:${FUNC_COLORS[f]}">${f}</span>`).join('');
+
+  panel.innerHTML = `
+    <div class="compat-header">
+      <div class="compat-types">
+        <span class="compat-type-badge badge-a">${selA}</span>
+        <span class="compat-x">×</span>
+        <span class="compat-type-badge badge-b">${selB}</span>
+      </div>
+      <div class="compat-score-wrap">
+        <div class="compat-score" style="color:${scoreColor}">${score}</div>
+        <div class="compat-score-label">Resonance score</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-family:var(--font-display);font-size:17px;color:var(--ink)">${dyn.label} dynamic</span>
+        ${dyn.tags.map(t => `<span class="dynamic-tag" style="border-color:var(--accent2);color:var(--accent)">${t}</span>`).join('')}
+      </div>
+      <p class="prose" style="margin-bottom:12px">${dyn.desc}</p>
+      ${scoreBars.map(b => `
+        <div class="score-bar-wrap">
+          <span style="font-size:12px;color:var(--ink3);width:110px;flex-shrink:0">${b.label}</span>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:${b.val}%;background:${scoreColor}"></div></div>
+        </div>`).join('')}
+      ${shared.length > 0 ? `<div style="margin-top:12px"><span class="section-label" style="display:block;margin-bottom:6px">Shared functions</span><div class="func-overlap">${funcColors}</div></div>` : ''}
+    </div>
+
+    <div class="context-tabs">
+      <button class="ctxb active" data-ctx="overview">Overview</button>
+      <button class="ctxb" data-ctx="work">Work context</button>
+      <button class="ctxb" data-ctx="private">Social &amp; private</button>
+      <button class="ctxb" data-ctx="conversation">Conversation guide</button>
+    </div>
+
+    <div class="ctx-section active" id="ctx-overview">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title"><span class="card-icon icon-common">✓</span>Commonalities</div>
+          <ul class="dot-list">${commonalities.map(c=>`<li>${c}</li>`).join('')}</ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-icon icon-friction">~</span>Points of friction</div>
+          <ul class="dot-list">${friction.map(f=>`<li>${f}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-icon icon-common">★</span>Common ground &amp; shared interests</div>
+        <ul class="dot-list">${commonInterests.map(i=>`<li>${i}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="ctx-section" id="ctx-work">
+      <div class="card">
+        <div class="card-title"><span class="card-icon icon-work">⊞</span>Activities that work well together</div>
+        <ul class="dot-list">${workActivities.map(a=>`<li>${a}</li>`).join('')}</ul>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label">What energizes ${selA} at work</div>
+          <ul class="dot-list">${TYPES[selA].work_context.good.map(g=>`<li>${g}</li>`).join('')}</ul>
+        </div>
+        <div class="card">
+          <div class="mini-label">What energizes ${selB} at work</div>
+          <ul class="dot-list">${TYPES[selB].work_context.good.map(g=>`<li>${g}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label" style="color:var(--rose)">Avoid offering ${selA}</div>
+          <div style="padding-top:4px">${TYPES[selA].work_context.avoid_offer.map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+        </div>
+        <div class="card">
+          <div class="mini-label" style="color:var(--rose)">Avoid offering ${selB}</div>
+          <div style="padding-top:4px">${TYPES[selB].work_context.avoid_offer.map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctx-section" id="ctx-private">
+      <div class="card">
+        <div class="card-title"><span class="card-icon icon-private">◎</span>Activities to do together</div>
+        <ul class="dot-list">${privateActivities.map(a=>`<li>${a}</li>`).join('')}</ul>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label">What ${selA} enjoys socially</div>
+          <ul class="dot-list">${TYPES[selA].private_context.good.map(g=>`<li>${g}</li>`).join('')}</ul>
+        </div>
+        <div class="card">
+          <div class="mini-label">What ${selB} enjoys socially</div>
+          <ul class="dot-list">${TYPES[selB].private_context.good.map(g=>`<li>${g}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label" style="color:var(--rose)">Avoid offering ${selA}</div>
+          <div style="padding-top:4px">${TYPES[selA].private_context.avoid_offer.map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+        </div>
+        <div class="card">
+          <div class="mini-label" style="color:var(--rose)">Avoid offering ${selB}</div>
+          <div style="padding-top:4px">${TYPES[selB].private_context.avoid_offer.map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctx-section" id="ctx-conversation">
+      <div class="card">
+        <div class="card-title"><span class="card-icon icon-ask">?</span>Good questions to open with</div>
+        <ul class="dot-list">${goodQuestions.map(q=>`<li>${q}</li>`).join('')}</ul>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label">Questions ${selA} finds energizing</div>
+          <ul class="dot-list">${TYPES[selA].questions.map(q=>`<li>${q}</li>`).join('')}</ul>
+        </div>
+        <div class="card">
+          <div class="mini-label">Questions ${selB} finds energizing</div>
+          <ul class="dot-list">${TYPES[selB].questions.map(q=>`<li>${q}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-icon icon-avoid">!</span>What to avoid asking or doing</div>
+        <div style="padding-top:4px">${avoidTopics.map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+        <div style="margin-top:16px">
+          <div class="two-col">
+            <div>
+              <div class="mini-label" style="margin-bottom:6px">Don't ask ${selA}</div>
+              <div>${TYPES[selA].work_context.avoid_ask.concat(TYPES[selA].private_context.avoid_ask).map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+            </div>
+            <div>
+              <div class="mini-label" style="margin-bottom:6px">Don't ask ${selB}</div>
+              <div>${TYPES[selB].work_context.avoid_ask.concat(TYPES[selB].private_context.avoid_ask).map(a=>`<span class="avoid-tag">${a}</span>`).join('')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // bind context tabs
+  panel.querySelectorAll('.ctxb').forEach(btn => {
+    btn.onclick = () => {
+      panel.querySelectorAll('.ctxb').forEach(b => b.classList.remove('active'));
+      panel.querySelectorAll('.ctx-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('ctx-' + btn.dataset.ctx).classList.add('active');
+    };
+  });
+}
+
+// ────────────────────────────────────────────────────────────────────
+// RENDER SINGLE
+// ────────────────────────────────────────────────────────────────────
+function renderSingle() {
+  const panel = document.getElementById('single-panel');
+  if (!singleSel) { panel.classList.remove('visible'); return; }
+  panel.classList.add('visible');
+  const t = TYPES[singleSel];
+
+  panel.innerHTML = `
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px">
+        <div>
+          <div style="font-family:var(--font-display);font-size:26px;color:var(--ink);margin-bottom:2px">${singleSel}</div>
+          <div class="type-tagline">${t.tagline}</div>
+        </div>
+        <div class="func-stack-display">
+          ${t.funcs.map((f,i)=>`<span class="fsd-badge" style="border-color:${FUNC_COLORS[f]};color:${FUNC_COLORS[f]}">${f} <span style="opacity:0.5;font-size:9px">${['dom','aux','ter','inf'][i]}</span></span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="stab-row">
+      <button class="stab active" data-stab="inner">Inner world</button>
+      <button class="stab" data-stab="interests">Interests</button>
+      <button class="stab" data-stab="questions">Questions</button>
+      <button class="stab" data-stab="work">Work context</button>
+      <button class="stab" data-stab="private">Social context</button>
+    </div>
+
+    <div class="stab-section active" id="stab-inner">
+      <div class="two-col">
+        <div class="card"><div class="mini-label">Characteristic thoughts</div><ul class="dot-list">${t.inner.thoughts.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+        <div class="card"><div class="mini-label">Core desires</div><ul class="dot-list">${t.inner.desires.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      </div>
+      <div class="card"><div class="mini-label">Emotional world</div><p class="prose">${t.inner.feelings}</p></div>
+    </div>
+
+    <div class="stab-section" id="stab-interests">
+      <div class="card"><div class="mini-label">Core interests</div><ul class="dot-list">${t.interests.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    </div>
+
+    <div class="stab-section" id="stab-questions">
+      <div class="card"><div class="mini-label">Questions they turn over</div><ul class="dot-list">${t.questions.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    </div>
+
+    <div class="stab-section" id="stab-work">
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label">Thrives when</div>
+          <ul class="dot-list">${t.work_context.good.map(x=>`<li>${x}</li>`).join('')}</ul>
+        </div>
+        <div class="card">
+          <div class="mini-label" style="color:var(--rose)">Struggles with</div>
+          <div>${t.work_context.avoid_offer.map(x=>`<span class="avoid-tag">${x}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mini-label" style="color:var(--rose)">Don't ask them at work</div>
+        <div>${t.work_context.avoid_ask.map(x=>`<span class="avoid-tag">${x}</span>`).join('')}</div>
+      </div>
+    </div>
+
+    <div class="stab-section" id="stab-private">
+      <div class="two-col">
+        <div class="card">
+          <div class="mini-label">Enjoys socially</div>
+          <ul class="dot-list">${t.private_context.good.map(x=>`<li>${x}</li>`).join('')}</ul>
+        </div>
+        <div class="card">
+          <div class="mini-label" style="color:var(--rose)">Avoid offering</div>
+          <div>${t.private_context.avoid_offer.map(x=>`<span class="avoid-tag">${x}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mini-label" style="color:var(--rose)">Don't say to them socially</div>
+        <div>${t.private_context.avoid_ask.map(x=>`<span class="avoid-tag">${x}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+
+  panel.querySelectorAll('.stab').forEach(btn => {
+    btn.onclick = () => {
+      panel.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+      panel.querySelectorAll('.stab-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('stab-' + btn.dataset.stab).classList.add('active');
+    };
+  });
+}
+
+// ────────────────────────────────────────────────────────────────────
+// MODE & FILTER WIRING
+// ────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.mode-tab').forEach(btn => {
+  btn.onclick = () => {
+    mode = btn.dataset.mode;
+    document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('mode-interact').style.display = mode === 'interact' ? 'block' : 'none';
+    document.getElementById('mode-single').style.display = mode === 'single' ? 'block' : 'none';
+  };
+});
+
+document.getElementById('temp-filter').addEventListener('click', e => {
+  const t = e.target.dataset.temp;
+  if (!t) return;
+  tempFilter = t;
+  document.querySelectorAll('#temp-filter .temp-pill').forEach(p => p.classList.toggle('active', p.dataset.temp === t));
+  renderGrid('type-grid', tempFilter, handleInteractClick, getInteractClass);
+});
+
+document.getElementById('temp-filter-single').addEventListener('click', e => {
+  const t = e.target.dataset.temp;
+  if (!t) return;
+  tempFilterSingle = t;
+  document.querySelectorAll('#temp-filter-single .temp-pill').forEach(p => p.classList.toggle('active', p.dataset.temp === t));
+  renderGrid('type-grid-single', tempFilterSingle, handleSingleClick, getSingleClass);
+});
+
+// ────────────────────────────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────────────────────────────
+renderGrid('type-grid', 'all', handleInteractClick, getInteractClass);
+renderGrid('type-grid-single', 'all', handleSingleClick, getSingleClass);
+updateSelBar();
+</script>
+</body>
+</html>
