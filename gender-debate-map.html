@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emotional Holding & Gendered Coregulation — A Discourse Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --warm: #c4956a;
+    --cool: #6a8fa8;
+    --accent: #b85c38;
+    --soft: #d4c9b8;
+    --dim: #5a504a;
+    --faint: #7a6e66;
+    --rule: rgba(26,20,16,0.12);
+    --rule-strong: rgba(26,20,16,0.25);
+    --pos-a: #8b4b6b;
+    --pos-b: #3d6b8b;
+    --pos-c: #6b7b5a;
+    --pos-d: #c4956a;
+    --pos-e: #7a5a8a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  header {
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    max-width: 300px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .lede {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--dim);
+    max-width: 720px;
+  }
+
+  .meta {
+    margin-top: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--faint);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .meta span b { color: var(--ink); font-weight: 500; margin-left: 0.3rem; font-family: 'Playfair Display', serif; font-size: 0.9rem; }
+
+  nav {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 100;
+    margin-bottom: 2rem;
+  }
+
+  .tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--soft);
+    border-radius: 2px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--faint);
+    transition: all 0.2s ease;
+  }
+  .tab::before {
+    content: attr(data-num);
+    font-size: 0.55rem;
+    margin-right: 0.4rem;
+    opacity: 0.6;
+  }
+  .tab:hover { border-color: var(--warm); color: var(--ink); }
+  .tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    letter-spacing: -0.01em;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  h2 .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--warm);
+    letter-spacing: 0.15em;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    font-style: italic;
+    margin: 2rem 0 0.5rem;
+    color: var(--accent);
+  }
+
+  .section-intro {
+    font-size: 0.92rem;
+    color: var(--dim);
+    margin-bottom: 2rem;
+    max-width: 780px;
+    line-height: 1.7;
+  }
+
+  /* DIMENSIONS */
+  .dimensions { border-top: 1px solid var(--rule-strong); }
+
+  .dim-row {
+    border-bottom: 1px solid var(--rule);
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+  }
+  .dim-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 0.2rem;
+    font-weight: 500;
+  }
+  .dim-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .dim-question {
+    font-size: 0.9rem;
+    color: var(--dim);
+    margin-bottom: 0.9rem;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+  .dim-poles {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.82rem;
+  }
+  .pole {
+    padding: 0.6rem 0.8rem;
+    background: rgba(26,20,16,0.03);
+    border-left: 2px solid;
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .pole.left { border-color: var(--pos-a); }
+  .pole.right { border-color: var(--pos-b); }
+  .pole-divider {
+    font-family: 'DM Mono', monospace;
+    color: var(--warm);
+    font-size: 0.9rem;
+  }
+  .dim-literature {
+    margin-top: 0.8rem;
+    font-size: 0.72rem;
+    color: var(--faint);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .dim-literature b { color: var(--dim); font-weight: 500; }
+
+  /* CLAIMS */
+  .claims-section { margin-bottom: 3rem; }
+
+  .claims-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule-strong);
+    display: flex;
+    justify-content: space-between;
+    color: var(--accent);
+  }
+  .claims-header .count { color: var(--faint); font-weight: 400; }
+
+  .claim {
+    display: grid;
+    grid-template-columns: 40px 1fr 140px;
+    gap: 1.2rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .claim-id {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--faint);
+    letter-spacing: 0.05em;
+    padding-top: 0.15rem;
+    font-weight: 500;
+  }
+  .claim-text { color: var(--ink); }
+  .claim-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: flex-start;
+    padding-top: 0.1rem;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    color: var(--dim);
+    white-space: nowrap;
+  }
+  .tag.essentialist { border-color: var(--pos-a); color: var(--pos-a); }
+  .tag.constructionist { border-color: var(--pos-b); color: var(--pos-b); }
+  .tag.integrated { border-color: var(--pos-c); color: var(--pos-c); }
+  .tag.psychological { border-color: var(--pos-d); color: #8a6530; }
+  .tag.political { border-color: var(--pos-e); color: var(--pos-e); }
+
+  /* SCALES */
+  .scale-card {
+    margin-bottom: 2.5rem;
+    padding: 1.8rem 1.5rem;
+    border: 1px solid var(--rule);
+    background: rgba(245,240,232,0.4);
+  }
+  .scale-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--warm);
+    margin-bottom: 0.5rem;
+  }
+  .scale-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+  .scale-question {
+    font-size: 0.85rem;
+    color: var(--dim);
+    margin-bottom: 1.8rem;
+    max-width: 640px;
+    line-height: 1.6;
+  }
+  .scale-axis { position: relative; margin: 1.5rem 0 0.8rem; }
+  .axis-line {
+    height: 2px;
+    background: linear-gradient(to right, var(--pos-a), var(--soft), var(--pos-b));
+    position: relative;
+    margin: 0 0.5rem;
+  }
+  .axis-ticks { position: relative; height: 6px; margin: 0 0.5rem; }
+  .tick {
+    position: absolute;
+    width: 1px;
+    height: 6px;
+    background: var(--rule-strong);
+    top: 0;
+  }
+  .axis-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .markers-container {
+    position: relative;
+    height: 140px;
+    margin: 0 0.5rem 1rem;
+  }
+  .marker {
+    position: absolute;
+    transform: translateX(-50%);
+    cursor: pointer;
+  }
+  .marker-stem {
+    width: 1px;
+    height: 18px;
+    background: var(--ink);
+    margin: 0 auto;
+    opacity: 0.4;
+  }
+  .marker-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ink);
+    margin: 0 auto;
+    transition: transform 0.2s;
+    border: 2px solid var(--paper);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .marker:hover .marker-dot { transform: scale(1.5); }
+  .marker-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+    color: var(--ink);
+    padding-top: 0.5rem;
+    line-height: 1.35;
+    width: max-content;
+    max-width: 110px;
+    margin-left: -50%;
+    transform: translateX(50%);
+  }
+  .marker:nth-child(even) { transform: translateX(-50%) translateY(36px); }
+
+  .scale-notes {
+    font-size: 0.82rem;
+    color: var(--dim);
+    line-height: 1.7;
+    margin-top: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: rgba(184,92,56,0.06);
+    border-left: 3px solid var(--accent);
+  }
+  .scale-notes b {
+    font-weight: 500;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* MATRICES */
+  .matrix-selector {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .matrix-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--soft);
+    background: transparent;
+    color: var(--faint);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .matrix-btn:hover { border-color: var(--warm); color: var(--ink); }
+  .matrix-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .matrix-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%;
+    border: 1px solid var(--rule-strong);
+    background: rgba(245,240,232,0.5);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(26,20,16,0.03) 24px, rgba(26,20,16,0.03) 25px),
+      repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(26,20,16,0.03) 24px, rgba(26,20,16,0.03) 25px);
+  }
+  .matrix { display: none; position: absolute; inset: 0; }
+  .matrix.active { display: block; }
+
+  .mx-axis { position: absolute; background: var(--rule-strong); }
+  .mx-axis-h { left: 0; right: 0; top: 50%; height: 1px; }
+  .mx-axis-v { top: 0; bottom: 0; left: 50%; width: 1px; }
+
+  .mx-label {
+    position: absolute;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    background: var(--paper);
+    padding: 0 0.4rem;
+  }
+  .mx-label.top { top: 0.4rem; left: 50%; transform: translateX(-50%); }
+  .mx-label.bottom { bottom: 0.4rem; left: 50%; transform: translateX(-50%); }
+  .mx-label.left { left: 0.4rem; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: center; }
+  .mx-label.right { right: 0.4rem; top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: center; }
+
+  .mx-point {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
+  .mx-point-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: transform 0.2s;
+    border: 2px solid var(--paper);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  }
+  .mx-point:hover .mx-point-dot { transform: scale(1.5); }
+  .mx-point-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+    margin-top: 4px;
+    color: var(--ink);
+    max-width: 110px;
+    line-height: 1.3;
+    opacity: 0.85;
+  }
+
+  .mx-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    font-size: 0.72rem;
+  }
+  .mx-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--dim);
+  }
+  .mx-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* TYPOLOGY / BYPASSING CARDS */
+  .typology {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  .typo-card {
+    background: var(--paper);
+    padding: 1.4rem 1.5rem;
+  }
+  .typo-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--accent);
+  }
+  .typo-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .typo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .typo-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    margin-bottom: 0.3rem;
+  }
+  .typo-desc {
+    font-size: 0.82rem;
+    color: var(--dim);
+    line-height: 1.65;
+  }
+  .typo-marker {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    margin-top: 0.4rem;
+    color: var(--warm);
+  }
+
+  .tooltip {
+    position: fixed;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.7rem 0.95rem;
+    font-size: 0.78rem;
+    max-width: 280px;
+    line-height: 1.55;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    border-radius: 2px;
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip strong {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    color: var(--warm);
+    font-weight: 500;
+  }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 2rem 1.2rem; }
+    .typology { grid-template-columns: 1fr; }
+    .claim { grid-template-columns: 30px 1fr; }
+    .claim-tags { grid-column: 2; }
+    .dim-poles { grid-template-columns: 1fr; }
+    .pole-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Discourse Analysis · Gendered Coregulation</div>
+  <h1>Emotional Holding &<br><em>the Gendered Container</em></h1>
+  <p class="lede">A structured taxonomy of contested claims regarding whether, how, and to what extent partners are obligated to contain one another's emotional states, with attention to how this question is refracted through gender.</p>
+  <div class="meta">
+    <span>Dimensions<b>9</b></span>
+    <span>Scales<b>9</b></span>
+    <span>Claims catalogued<b>48</b></span>
+    <span>Literatures referenced<b>7+</b></span>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" data-num="01" onclick="showSec(event,'dimensions')">Dimensions</button>
+  <button class="tab" data-num="02" onclick="showSec(event,'claims')">Claims Catalogue</button>
+  <button class="tab" data-num="03" onclick="showSec(event,'scales')">Scales</button>
+  <button class="tab" data-num="04" onclick="showSec(event,'matrices')">Matrices</button>
+  <button class="tab" data-num="05" onclick="showSec(event,'typology')">Position Typology</button>
+  <button class="tab" data-num="06" onclick="showSec(event,'bypassing')">Epistemic Failures</button>
+</nav>
+
+<section id="dimensions" class="section active">
+  <h2>Nine Dimensions of Disagreement <span class="num">01</span></h2>
+  <p class="section-intro">The debate is not a single axis. Positions that appear similar on one dimension frequently diverge on another. These nine dimensions organise the major fault lines, each formulated as a question on which disputants take distinct positions.</p>
+
+  <div class="dimensions">
+
+    <div class="dim-row">
+      <div class="dim-num">D1</div>
+      <div>
+        <div class="dim-title">Ontology of gender difference</div>
+        <div class="dim-question">To what extent are observed differences in emotional expression between genders grounded in biology versus social construction?</div>
+        <div class="dim-poles">
+          <div class="pole left">Sexual dimorphism produces fixed dispositions in affect, attachment, and coregulation style</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Emotional styles are products of socialisation, discourse, and power; biological dimorphism is overstated</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> evolutionary psychology · behavioural endocrinology · gender studies · cross-cultural anthropology · affective neuroscience</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D2</div>
+      <div>
+        <div class="dim-title">Locus of relational responsibility</div>
+        <div class="dim-question">Where does responsibility for an individual's emotional states properly lie — in the self, the dyad, or a broader ecosystem?</div>
+        <div class="dim-poles">
+          <div class="pole left">Emotional states are the individual's sole responsibility; partners are not obligated containers</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">A loving partner is the primary and unconditional container of all emotional states regardless of source</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> attachment theory · differentiation of self (Bowen) · interpersonal neurobiology · object-relations theory</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D3</div>
+      <div>
+        <div class="dim-title">Scope of the relational contract</div>
+        <div class="dim-question">Does an intimate partnership imply a contract to process all emotional content, or only content arising from the relationship itself?</div>
+        <div class="dim-poles">
+          <div class="pole left">All emotional material falls within the relational contract once intimacy is established</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Only emotions arising from within the dyad are its proper content; external material belongs to other support systems</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> couple therapy · Gottman research · Internal Family Systems · relational-cultural theory</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D4</div>
+      <div>
+        <div class="dim-title">Self-regulation as precondition</div>
+        <div class="dim-question">Should individuals be expected to regulate affect internally before externalising it to a partner?</div>
+        <div class="dim-poles">
+          <div class="pole left">Self-regulation before expression is a healthy developmental capacity; its absence signals immaturity</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Requiring pre-regulation before expression reinstates patriarchal demands for women to be "palatable"</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> polyvagal theory · affect regulation · trauma theory · feminist ethics of care</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D5</div>
+      <div>
+        <div class="dim-title">Distribution of emotional labour</div>
+        <div class="dim-question">Is emotional labour structurally gendered, and if so, what intervention is warranted?</div>
+        <div class="dim-poles">
+          <div class="pole left">Women have historically performed disproportionate emotional labour for men; correction requires centring women's needs</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Distribution of emotional labour varies by individual and context; structural framing obscures individual variation</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> sociology of emotion (Hochschild) · feminist political theory · household labour studies</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D6</div>
+      <div>
+        <div class="dim-title">Capacity attribution</div>
+        <div class="dim-question">Are observed limitations in emotional holding capacity ontological, developmental, or situational?</div>
+        <div class="dim-poles">
+          <div class="pole left">Men are constitutionally limited in their capacity to hold feminine emotional range</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Holding capacity is a trainable skill; apparent limitations reflect developmental deficits or conditioning, not fixed capacity</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> developmental psychology · attachment repair · neuroplasticity research · masculinity studies</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D7</div>
+      <div>
+        <div class="dim-title">Level of analysis</div>
+        <div class="dim-question">Is relational dysfunction best explained at the individual, dyadic, or structural level?</div>
+        <div class="dim-poles">
+          <div class="pole left">Individual attachment history, nervous system, and psychology account for relational patterns; structural analysis is overreach</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Patriarchy, colonialism, and political economy produce individual dysfunction; psychology alone individualises structural problems</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> critical theory · structural sociology · cognitive-behavioural psychology · intersectionality</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D8</div>
+      <div>
+        <div class="dim-title">Lover/friend/therapist differentiation</div>
+        <div class="dim-question">Does the role of "lover" carry holding obligations distinct from those of friend or other intimate relations?</div>
+        <div class="dim-poles">
+          <div class="pole left">Romantic intimacy implies holding obligations categorically different from friendship</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Holding obligations are better understood as degrees along a continuum rather than categorical role differences</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> philosophy of love · relationship anarchy · polyamory ethics · friendship studies</div>
+      </div>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-num">D9</div>
+      <div>
+        <div class="dim-title">Status of shadow material</div>
+        <div class="dim-question">When erotic desire or behaviour contradicts stated values, which constitutes more reliable information about the self?</div>
+        <div class="dim-poles">
+          <div class="pole left">Stated values and ideological commitments are the true self; shadow material is noise, trauma, or conditioning to be overridden</div>
+          <div class="pole-divider">↔</div>
+          <div class="pole right">Desire and behaviour are more reliable indicators than ideology; shadow material carries information the ego has not integrated</div>
+        </div>
+        <div class="dim-literature"><b>Literatures engaged:</b> depth psychology · Jungian analysis · psychodynamic theory · queer theory of desire</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="claims" class="section">
+  <h2>Claims Catalogue <span class="num">02</span></h2>
+  <p class="section-intro">Forty-eight discrete claims advanced across the discourse, organised by the primary position they support. Tags indicate which dimensions from Section 01 the claim most directly addresses. A claim's presence in this catalogue does not imply endorsement.</p>
+
+  <div class="claims-section">
+    <div class="claims-header"><span>A. Claims supporting gendered holding asymmetries</span><span class="count">12</span></div>
+
+    <div class="claim"><div class="claim-id">A01</div><div class="claim-text">Women's nervous systems, shaped by oxytocin and relational embeddedness, generate emotional states that require relational metabolisation rather than solitary processing.</div><div class="claim-tags"><span class="tag essentialist">D1</span><span class="tag">D2</span></div></div>
+    <div class="claim"><div class="claim-id">A02</div><div class="claim-text">Male socialisation produces men structurally unable to hold the full range of feminine emotional expression without withdrawal, contempt, or fixing.</div><div class="claim-tags"><span class="tag">D1</span><span class="tag">D6</span></div></div>
+    <div class="claim"><div class="claim-id">A03</div><div class="claim-text">Women have historically shrunk their emotional range to fit within masculine tolerance; reclaiming the full range is both a political and a developmental act.</div><div class="claim-tags"><span class="tag political">D5</span><span class="tag">D7</span></div></div>
+    <div class="claim"><div class="claim-id">A04</div><div class="claim-text">Requiring a woman to self-regulate before expressing emotion reproduces patriarchal demands that she be manageable.</div><div class="claim-tags"><span class="tag">D4</span><span class="tag political">D7</span></div></div>
+    <div class="claim"><div class="claim-id">A05</div><div class="claim-text">Romantic partnership implies unconditional emotional holding as constitutive of the bond; conditional holding indicates absence of true intimacy.</div><div class="claim-tags"><span class="tag">D2</span><span class="tag">D8</span></div></div>
+    <div class="claim"><div class="claim-id">A06</div><div class="claim-text">Biological sex differences ground genuinely different emotional registers that egalitarian framing erases rather than honours.</div><div class="claim-tags"><span class="tag essentialist">D1</span></div></div>
+    <div class="claim"><div class="claim-id">A07</div><div class="claim-text">Labelling a woman's emotions as "too much" or her masculine as "underdeveloped" is a sophisticated form of gaslighting in developmental language.</div><div class="claim-tags"><span class="tag">D4</span><span class="tag">D6</span></div></div>
+    <div class="claim"><div class="claim-id">A08</div><div class="claim-text">The feminine principle is relational by nature; self-containment prior to relational expression violates rather than refines this principle.</div><div class="claim-tags"><span class="tag essentialist">D1</span><span class="tag">D4</span></div></div>
+    <div class="claim"><div class="claim-id">A09</div><div class="claim-text">Ongoing patriarchal conditions leave women with legitimate grievance claims that egalitarian framings prematurely dissolve.</div><div class="claim-tags"><span class="tag political">D5</span><span class="tag">D7</span></div></div>
+    <div class="claim"><div class="claim-id">A10</div><div class="claim-text">Women-centred relational configurations — female friendship, matriarchal community, partnered withdrawal — offer corrective holding unavailable in heterosexual partnership.</div><div class="claim-tags"><span class="tag">D5</span><span class="tag">D8</span></div></div>
+    <div class="claim"><div class="claim-id">A11</div><div class="claim-text">The critique of emotional essentialism often originates from those who benefit from its denial; refusing to name gendered patterns itself serves patriarchy.</div><div class="claim-tags"><span class="tag political">D1</span><span class="tag">D7</span></div></div>
+    <div class="claim"><div class="claim-id">A12</div><div class="claim-text">Erotic desire shaped under patriarchy is not epistemically reliable; women's attraction to dominant or disengaged men reflects conditioning, not authentic preference.</div><div class="claim-tags"><span class="tag political">D9</span></div></div>
+  </div>
+
+  <div class="claims-section">
+    <div class="claims-header"><span>B. Claims supporting mutual / symmetric obligations</span><span class="count">12</span></div>
+
+    <div class="claim"><div class="claim-id">B01</div><div class="claim-text">Coregulation requires two sufficiently regulated nervous systems; unidirectional demand for containment is not partnership but parentification.</div><div class="claim-tags"><span class="tag integrated">D4</span><span class="tag">D2</span></div></div>
+    <div class="claim"><div class="claim-id">B02</div><div class="claim-text">Holding capacity is a trainable skill accessible to any adult nervous system; framing it as gender-specific forecloses development.</div><div class="claim-tags"><span class="tag constructionist">D1</span><span class="tag">D6</span></div></div>
+    <div class="claim"><div class="claim-id">B03</div><div class="claim-text">Emotions arising outside the dyad belong in a broader ecosystem of support: friends, therapy, community, practice, solitude.</div><div class="claim-tags"><span class="tag integrated">D3</span></div></div>
+    <div class="claim"><div class="claim-id">B04</div><div class="claim-text">Concentrating all emotional life onto a single partner constitutes fusion, not intimacy, and predicts relational failure.</div><div class="claim-tags"><span class="tag">D2</span><span class="tag">D3</span></div></div>
+    <div class="claim"><div class="claim-id">B05</div><div class="claim-text">The inner function of pausing and containing before expression is available to all genders and constitutes a core developmental task.</div><div class="claim-tags"><span class="tag constructionist">D1</span><span class="tag">D4</span></div></div>
+    <div class="claim"><div class="claim-id">B06</div><div class="claim-text">Secure attachment involves both reaching out and self-soothing; either capacity alone produces anxious or avoidant pathology.</div><div class="claim-tags"><span class="tag psychological">D4</span><span class="tag">D6</span></div></div>
+    <div class="claim"><div class="claim-id">B07</div><div class="claim-text">Men also carry unmet holding needs, often structured as mother wounds; male emotional withdrawal is frequently compensation rather than capability ceiling.</div><div class="claim-tags"><span class="tag psychological">D6</span><span class="tag">D7</span></div></div>
+    <div class="claim"><div class="claim-id">B08</div><div class="claim-text">Gendered emotional styles vary enough cross-culturally to falsify strong biological determinism.</div><div class="claim-tags"><span class="tag constructionist">D1</span></div></div>
+    <div class="claim"><div class="claim-id">B09</div><div class="claim-text">Attraction to archetypes that contradict stated values provides reliable psychic information that ideology alone cannot override.</div><div class="claim-tags"><span class="tag psychological">D9</span></div></div>
+    <div class="claim"><div class="claim-id">B10</div><div class="claim-text">Healthy differentiation distinguishes emotions arising from within the relationship (shared responsibility) from those arising externally (primary responsibility of the individual).</div><div class="claim-tags"><span class="tag integrated">D3</span></div></div>
+    <div class="claim"><div class="claim-id">B11</div><div class="claim-text">The role of lover and the role of therapist are categorically distinct; conflating them injures both.</div><div class="claim-tags"><span class="tag">D2</span><span class="tag">D8</span></div></div>
+    <div class="claim"><div class="claim-id">B12</div><div class="claim-text">Ideological framing of relational conflict — feminist, spiritual, or otherwise — functions as defense when it replaces rather than illuminates contact.</div><div class="claim-tags"><span class="tag integrated">D7</span><span class="tag">D9</span></div></div>
+  </div>
+
+  <div class="claims-section">
+    <div class="claims-header"><span>C. Claims from biology and evolutionary frameworks</span><span class="count">8</span></div>
+
+    <div class="claim"><div class="claim-id">C01</div><div class="claim-text">Average sex differences in empathic accuracy and emotional recognition are documented but effect sizes are small relative to within-sex variance.</div><div class="claim-tags"><span class="tag">D1</span></div></div>
+    <div class="claim"><div class="claim-id">C02</div><div class="claim-text">Hormonal differences modulate but do not determine emotional expression; cultural amplification is substantial.</div><div class="claim-tags"><span class="tag">D1</span></div></div>
+    <div class="claim"><div class="claim-id">C03</div><div class="claim-text">Evolved mate-selection pressures may produce tendencies toward different emotional signalling strategies, but map weakly onto contemporary dyadic demands.</div><div class="claim-tags"><span class="tag essentialist">D1</span></div></div>
+    <div class="claim"><div class="claim-id">C04</div><div class="claim-text">Sexual dimorphism in stress response (tend-and-befriend vs fight-or-flight) is contested; methodological issues limit strong inference.</div><div class="claim-tags"><span class="tag">D1</span></div></div>
+    <div class="claim"><div class="claim-id">C05</div><div class="claim-text">Neuroplasticity research undermines strong claims of fixed gendered emotional capacity; adult brains remodel substantially with practice.</div><div class="claim-tags"><span class="tag constructionist">D1</span><span class="tag">D6</span></div></div>
+    <div class="claim"><div class="claim-id">C06</div><div class="claim-text">Cross-cultural variation in gendered emotional expression is large enough to falsify strong nativist accounts but not total constructionist ones.</div><div class="claim-tags"><span class="tag integrated">D1</span></div></div>
+    <div class="claim"><div class="claim-id">C07</div><div class="claim-text">Gender-diverse and non-binary individuals demonstrate that observed emotional patterns do not reduce to chromosomal or gonadal sex.</div><div class="claim-tags"><span class="tag constructionist">D1</span></div></div>
+    <div class="claim"><div class="claim-id">C08</div><div class="claim-text">Invoking biology to justify role asymmetries commits the naturalistic fallacy: even if differences exist, normative conclusions do not follow.</div><div class="claim-tags"><span class="tag">D1</span></div></div>
+  </div>
+
+  <div class="claims-section">
+    <div class="claims-header"><span>D. Claims from psychology and attachment</span><span class="count">8</span></div>
+
+    <div class="claim"><div class="claim-id">D01</div><div class="claim-text">Attachment styles formed in early caregiving predict adult capacity to hold and be held independently of gender.</div><div class="claim-tags"><span class="tag psychological">D6</span></div></div>
+    <div class="claim"><div class="claim-id">D02</div><div class="claim-text">Anxious attachment presents as high holding demand with low self-regulation; avoidant attachment presents inversely.</div><div class="claim-tags"><span class="tag psychological">D4</span></div></div>
+    <div class="claim"><div class="claim-id">D03</div><div class="claim-text">Couples exhibit reliable patterns — pursue/withdraw, criticism/defensiveness — that predict outcomes more strongly than ideological framing.</div><div class="claim-tags"><span class="tag psychological">D7</span></div></div>
+    <div class="claim"><div class="claim-id">D04</div><div class="claim-text">Differentiation of self predicts ability to remain present to a partner's affect without fusion, reactivity, or withdrawal.</div><div class="claim-tags"><span class="tag psychological">D2</span><span class="tag">D4</span></div></div>
+    <div class="claim"><div class="claim-id">D05</div><div class="claim-text">Early maternal attunement failures produce adult patterns of unmet inner feminine across genders.</div><div class="claim-tags"><span class="tag psychological">D6</span></div></div>
+    <div class="claim"><div class="claim-id">D06</div><div class="claim-text">Disowned shadow material predictably arises in erotic life; ideological frameworks that cannot accommodate this produce repeated symptom formation.</div><div class="claim-tags"><span class="tag psychological">D9</span></div></div>
+    <div class="claim"><div class="claim-id">D07</div><div class="claim-text">Trauma-adapted nervous systems read neutral behaviour as threatening; claims of categorical incapacity may report trauma response rather than capacity assessment.</div><div class="claim-tags"><span class="tag psychological">D6</span></div></div>
+    <div class="claim"><div class="claim-id">D08</div><div class="claim-text">Window-of-tolerance models predict that both hypoaroused and hyperaroused states prevent genuine relational contact, irrespective of gender.</div><div class="claim-tags"><span class="tag psychological">D4</span></div></div>
+  </div>
+
+  <div class="claims-section">
+    <div class="claims-header"><span>E. Claims from structural and political frameworks</span><span class="count">8</span></div>
+
+    <div class="claim"><div class="claim-id">E01</div><div class="claim-text">Household and emotional labour remain asymmetrically distributed by gender even in nominally egalitarian partnerships.</div><div class="claim-tags"><span class="tag political">D5</span></div></div>
+    <div class="claim"><div class="claim-id">E02</div><div class="claim-text">The mental load of anticipating and managing family emotional weather falls disproportionately on women across cultures.</div><div class="claim-tags"><span class="tag political">D5</span></div></div>
+    <div class="claim"><div class="claim-id">E03</div><div class="claim-text">Patriarchal conditioning limits men's access to a full emotional range; this is a structural injury to men as well as women.</div><div class="claim-tags"><span class="tag political">D6</span><span class="tag">D7</span></div></div>
+    <div class="claim"><div class="claim-id">E04</div><div class="claim-text">Colonial and racial hierarchies intersect with gender to produce differently gendered emotional obligations across populations.</div><div class="claim-tags"><span class="tag political">D7</span></div></div>
+    <div class="claim"><div class="claim-id">E05</div><div class="claim-text">Individual therapeutic solutions to structurally produced problems function as containment of political grievance into private suffering.</div><div class="claim-tags"><span class="tag political">D7</span></div></div>
+    <div class="claim"><div class="claim-id">E06</div><div class="claim-text">The injunction to "do your inner work" can depoliticise relational conflict by locating the problem within rather than between.</div><div class="claim-tags"><span class="tag political">D7</span></div></div>
+    <div class="claim"><div class="claim-id">E07</div><div class="claim-text">Economic dependency historically compelled women to perform emotional labour regardless of preference; correction requires material as well as relational change.</div><div class="claim-tags"><span class="tag political">D5</span></div></div>
+    <div class="claim"><div class="claim-id">E08</div><div class="claim-text">Framing all relational conflict through political analysis risks obscuring individual variation and specific culpability within a class of explanations.</div><div class="claim-tags"><span class="tag">D7</span></div></div>
+  </div>
+</section>
+
+<section id="scales" class="section">
+  <h2>Nine Scales <span class="num">03</span></h2>
+  <p class="section-intro">Each dimension can be operationalised as a continuum along which positions can be placed. The markers below indicate named reference positions drawn from the major literatures; they are descriptive, not evaluative.</p>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 01 / 09</div>
+    <h3 class="scale-title">Ontology of gender difference</h3>
+    <p class="scale-question">The degree to which observed gendered patterns in emotional expression are attributed to biology versus social construction.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Biological determinism</span><span>Social constructionism</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:5%" data-tip="Sexual dimorphism fully determines emotional style; cross-cultural variation is surface. Strong evolutionary psychology, biological essentialism.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Strong biological determinism</div>
+      </div>
+      <div class="marker" style="left:22%" data-tip="Biology creates substantive tendencies that culture modulates. Mainstream evolutionary psychology, some sacred feminine frameworks.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Soft essentialism</div>
+      </div>
+      <div class="marker" style="left:42%" data-tip="Biology grounds difference; spiritual and sacred polarity practices honour rather than erase it. Tantric, Taoist, neo-Jungian archetypal work.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Sacred polarity</div>
+      </div>
+      <div class="marker" style="left:55%" data-tip="Biology and culture co-produce observed patterns; neither reducible to the other. Mainstream academic biosocial position.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Biosocial interactionism</div>
+      </div>
+      <div class="marker" style="left:75%" data-tip="Gendered patterns primarily products of socialisation, discourse, and power; biological substrate real but thin. Mainstream sociological feminism.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Strong constructionism</div>
+      </div>
+      <div class="marker" style="left:94%" data-tip="Gender is performative and iterative; biological claims themselves produced by discourse. Butler, post-structuralist queer theory.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Performativity</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Empirical constraint</b>Meta-analyses of gender differences in empathy, emotional expression, and attachment show small to moderate average effect sizes with substantial within-gender variance. This pattern is compatible with positions from roughly 30% to 80%; extremes face empirical difficulty.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 02 / 09</div>
+    <h3 class="scale-title">Locus of emotional responsibility</h3>
+    <p class="scale-question">Where the primary responsibility for containing and processing emotional states is located.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Radical self-responsibility</span><span>Radical other-responsibility</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:8%" data-tip="Emotions are exclusively the individual's own to process; partners owe no holding beyond explicit contract. Stoic, libertarian framings.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Full self-containment</div>
+      </div>
+      <div class="marker" style="left:30%" data-tip="Inner structure developed first; partner selectively engaged. Bowen family systems, mature differentiation.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Differentiated sharing</div>
+      </div>
+      <div class="marker" style="left:52%" data-tip="Both partners hold and are held reciprocally; neither is primary container. Attachment-secure baseline.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Reciprocal coregulation</div>
+      </div>
+      <div class="marker" style="left:73%" data-tip="Intimate partner functions as primary emotional container; broader ecosystem secondary. Traditional romantic ideal.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Partner-as-container</div>
+      </div>
+      <div class="marker" style="left:92%" data-tip="Loving partner holds all emotional states without condition or limit; conditional holding indicates failed love.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Unconditional holding</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Clinical constraint</b>Longitudinal couple research identifies reciprocal coregulation as the strongest predictor of relationship stability. Positions above ~75% correlate with enmeshment patterns; below ~20%, with avoidant patterns.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 03 / 09</div>
+    <h3 class="scale-title">Scope of relational contract</h3>
+    <p class="scale-question">The range of emotional material a partner is considered obligated to hold.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Relational material only</span><span>All emotional material</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:10%" data-tip="Only emotions arising directly from the dyad belong to the dyad. Other material belongs to therapy, friends, community.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Dyadic-source only</div>
+      </div>
+      <div class="marker" style="left:33%" data-tip="Dyadic material primary; external material shared selectively with consent-based engagement.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Selective external</div>
+      </div>
+      <div class="marker" style="left:55%" data-tip="Broad mutual engagement with most emotional content, with respect for each partner's capacity and bandwidth.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Broad mutual</div>
+      </div>
+      <div class="marker" style="left:78%" data-tip="All significant emotional material belongs within the partnership; bandwidth is not a legitimate limit.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">All-content presumed</div>
+      </div>
+      <div class="marker" style="left:95%" data-tip="Partnership is the total emotional world; other support systems are supplementary or unnecessary.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Total relational world</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Ecological constraint</b>Social network research indicates that individuals with multiple intimate confidants show better mental health outcomes than those relying on a single partner, regardless of partnership quality.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 04 / 09</div>
+    <h3 class="scale-title">Self-regulation as precondition</h3>
+    <p class="scale-question">The degree to which internal regulation is expected prior to externalising affect.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>No precondition</span><span>Full self-regulation required</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:8%" data-tip="Expression is primary; self-regulation follows from being held. Demanding regulation first pathologises emotional need.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Express-then-regulate</div>
+      </div>
+      <div class="marker" style="left:30%" data-tip="Some self-awareness before expression but no obligation to process internally first. Emotional expression is relational by design.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Light self-contact</div>
+      </div>
+      <div class="marker" style="left:52%" data-tip="Brief internal pause before externalising; enough inner structure to hold the charge momentarily before offering relationally.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Brief self-containment</div>
+      </div>
+      <div class="marker" style="left:75%" data-tip="Substantial inner processing before sharing; partner engaged when material is more organised. High-differentiation norm.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Substantial pre-processing</div>
+      </div>
+      <div class="marker" style="left:93%" data-tip="Full internal resolution before expression; partner engaged only with processed content. Can function as emotional avoidance.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Full self-regulation</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Therapeutic constraint</b>Window-of-tolerance models suggest that dysregulated states impair both expression and reception; some minimal regulation improves rather than suppresses authentic contact. Positions at both extremes correlate with relational difficulty.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 05 / 09</div>
+    <h3 class="scale-title">Distribution of emotional labour</h3>
+    <p class="scale-question">How emotional work is or should be distributed across gender in partnerships.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Male-weighted</span><span>Female-weighted correction</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:8%" data-tip="Traditional: men lead emotionally as they lead materially. Women's role is support. Rarely articulated explicitly in contemporary discourse.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Traditional patriarchy</div>
+      </div>
+      <div class="marker" style="left:28%" data-tip="Men are providers / stoics; women are emotional specialists. Complementarian framings.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Complementarian</div>
+      </div>
+      <div class="marker" style="left:52%" data-tip="Emotional labour distributed by capacity, context, and need rather than gender; active work to counter default asymmetries.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Symmetric-egalitarian</div>
+      </div>
+      <div class="marker" style="left:75%" data-tip="Women's needs centred as corrective to historical asymmetry; men develop holding capacity as part of repair.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Corrective centring</div>
+      </div>
+      <div class="marker" style="left:93%" data-tip="Heterosexual partnership is structurally incapable of reciprocal holding; women must seek it elsewhere.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Separatist position</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Empirical note</b>Time-use and household-labour studies consistently document unequal distribution of cognitive and emotional labour, with women performing more across most cultural contexts. The empirical finding does not by itself adjudicate between symmetric-egalitarian and corrective-centring responses.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 06 / 09</div>
+    <h3 class="scale-title">Capacity attribution</h3>
+    <p class="scale-question">Whether holding capacity is framed as fixed trait, developmental stage, or learnable skill.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Fixed / ontological</span><span>Fully malleable</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:8%" data-tip="Gender or personality structure produces permanent holding ceilings. Categorical incapacity claims.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Fixed capacity</div>
+      </div>
+      <div class="marker" style="left:30%" data-tip="Holding capacity is deeply structured by early attachment; significant change is possible but difficult and slow.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Attachment-deep</div>
+      </div>
+      <div class="marker" style="left:55%" data-tip="Capacity is developmental; adults can meaningfully expand through practice, therapy, relational repair.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Developmental</div>
+      </div>
+      <div class="marker" style="left:77%" data-tip="Holding is a trainable skill; limitations reflect lack of training, not capacity ceiling. Mainstream skill-based therapy.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Skill-based</div>
+      </div>
+      <div class="marker" style="left:93%" data-tip="Holding is entirely situational; anyone can hold anything given the right conditions. Minimises structural and developmental factors.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Fully situational</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Research constraint</b>Adult neuroplasticity research supports substantial modifiability of affect-regulatory capacity while documenting that change requires sustained practice and repair-oriented relational contexts. Both hard-fixed and fully-malleable extremes are poorly supported.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 07 / 09</div>
+    <h3 class="scale-title">Level of analysis</h3>
+    <p class="scale-question">Whether relational phenomena are best explained individually, dyadically, or structurally.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Individual-psychological</span><span>Structural-political</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:8%" data-tip="Relational patterns reduce to individual psychology — attachment, trauma, neurobiology. Structural accounts individualise poorly.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Intrapsychic</div>
+      </div>
+      <div class="marker" style="left:30%" data-tip="Primarily psychological with acknowledgment of social context; therapy is the main intervention.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Psychology-primary</div>
+      </div>
+      <div class="marker" style="left:52%" data-tip="Biopsychosocial: individual, dyadic, and structural factors mutually constitute relational phenomena.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Biopsychosocial</div>
+      </div>
+      <div class="marker" style="left:75%" data-tip="Individual suffering is largely structurally produced; psychological framing risks depoliticisation.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Structural-primary</div>
+      </div>
+      <div class="marker" style="left:93%" data-tip="Relational dynamics are effects of power; individual psychology is itself a political construction.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Strong structuralism</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Epistemic note</b>Monocausal accounts at either extreme typically fail to explain observed variance. Empirically adequate accounts integrate at least two levels; the dispute is often about which level is primary rather than which is exclusive.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 08 / 09</div>
+    <h3 class="scale-title">Role differentiation</h3>
+    <p class="scale-question">Whether lover, friend, and therapist constitute categorically distinct roles with different holding obligations.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Continuum of intimacy</span><span>Categorical role distinctions</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:10%" data-tip="Roles blur; obligations scale with relational depth regardless of label. Relationship anarchy, radical friendship.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Fully continuous</div>
+      </div>
+      <div class="marker" style="left:35%" data-tip="Different relations carry different textures but obligations mostly shared; romantic partnership slightly more intense.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Soft distinction</div>
+      </div>
+      <div class="marker" style="left:60%" data-tip="Lover role carries meaningfully different obligations than friend role, but negotiable rather than fixed.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Substantive distinction</div>
+      </div>
+      <div class="marker" style="left:82%" data-tip="Lover role is categorically distinct; unconditional holding is constitutive of romantic partnership specifically.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Strong categorical</div>
+      </div>
+      <div class="marker" style="left:95%" data-tip="Roles are ontologically separate; conflating them produces injury.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Rigid separation</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Philosophical note</b>This scale cross-cuts others: positions on the categorical end can support either high holding obligations (lovers hold more) or low ones (lovers are not therapists). The distinction matters only in combination with other dimensions.</div>
+  </div>
+
+  <div class="scale-card">
+    <div class="scale-num">SCALE 09 / 09</div>
+    <h3 class="scale-title">Status of shadow material</h3>
+    <p class="scale-question">How contradictions between stated values and actual desire or behaviour are interpreted.</p>
+    <div class="scale-axis">
+      <div class="axis-line"></div>
+      <div class="axis-ticks"><div class="tick" style="left:0%"></div><div class="tick" style="left:25%"></div><div class="tick" style="left:50%"></div><div class="tick" style="left:75%"></div><div class="tick" style="left:100%"></div></div>
+      <div class="axis-labels"><span>Ideology primary</span><span>Desire primary</span></div>
+    </div>
+    <div class="markers-container">
+      <div class="marker" style="left:8%" data-tip="Stated values are the real self; contradictory desire is conditioning or trauma to be overridden.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Ideology sovereign</div>
+      </div>
+      <div class="marker" style="left:30%" data-tip="Values primary, but contradictory material acknowledged as symptom requiring management.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Values-first</div>
+      </div>
+      <div class="marker" style="left:52%" data-tip="Stated and unstated material both carry information; integration requires attending to contradictions without resolving prematurely.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Integrative</div>
+      </div>
+      <div class="marker" style="left:75%" data-tip="Behaviour and desire are more reliable indicators of authentic self than articulated position.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Desire-primary</div>
+      </div>
+      <div class="marker" style="left:93%" data-tip="The body and the erotic never lie; stated ideology is superficial and frequently defensive.">
+        <div class="marker-stem"></div><div class="marker-dot"></div>
+        <div class="marker-label">Somatic sovereign</div>
+      </div>
+    </div>
+    <div class="scale-notes"><b>Depth-psychological note</b>Psychodynamic traditions generally locate the centre of gravity at 50–70%, treating contradictions as data rather than noise. Cognitive-behavioural and ideology-primary positions typically sit at 10–30%.</div>
+  </div>
+
+</section>
+
+<section id="matrices" class="section">
+  <h2>Two-Dimensional Matrices <span class="num">04</span></h2>
+  <p class="section-intro">Positions can be plotted against any two dimensions simultaneously. These matrices cluster named theoretical positions by their joint commitments. Hover any point for detail.</p>
+
+  <div class="matrix-selector">
+    <button class="matrix-btn active" onclick="showMatrix(event,'mx1')">Ontology × Labour distribution</button>
+    <button class="matrix-btn" onclick="showMatrix(event,'mx2')">Responsibility × Capacity</button>
+    <button class="matrix-btn" onclick="showMatrix(event,'mx3')">Level of analysis × Shadow status</button>
+  </div>
+
+  <div class="matrix-wrap">
+
+    <div id="mx1" class="matrix active">
+      <div class="mx-axis mx-axis-h"></div>
+      <div class="mx-axis mx-axis-v"></div>
+      <div class="mx-label top">Symmetric / egalitarian labour</div>
+      <div class="mx-label bottom">Asymmetric / gendered labour</div>
+      <div class="mx-label left">Bio-essentialist</div>
+      <div class="mx-label right">Constructionist</div>
+
+      <div class="mx-point" style="left:15%;top:72%" data-tip="Gender differences are natural and generate asymmetric emotional roles.">
+        <div class="mx-point-dot" style="background:var(--pos-a)"></div>
+        <div class="mx-point-label">Traditional complementarianism</div>
+      </div>
+      <div class="mx-point" style="left:22%;top:28%" data-tip="Natural gender difference framed within egalitarian mutual honouring.">
+        <div class="mx-point-dot" style="background:var(--pos-d)"></div>
+        <div class="mx-point-label">Sacred polarity</div>
+      </div>
+      <div class="mx-point" style="left:48%;top:32%" data-tip="Universal inner masculine/feminine; individual developmental task across genders.">
+        <div class="mx-point-dot" style="background:var(--pos-d)"></div>
+        <div class="mx-point-label">Jungian archetypal</div>
+      </div>
+      <div class="mx-point" style="left:55%;top:50%" data-tip="Individual variation predominates; gender is secondary.">
+        <div class="mx-point-dot" style="background:var(--pos-c)"></div>
+        <div class="mx-point-label">Attachment theory</div>
+      </div>
+      <div class="mx-point" style="left:78%;top:25%" data-tip="Gender is constructed; equality of distribution is the aim within existing partnership structures.">
+        <div class="mx-point-dot" style="background:var(--pos-b)"></div>
+        <div class="mx-point-label">Liberal feminism</div>
+      </div>
+      <div class="mx-point" style="left:85%;top:68%" data-tip="Gender constructed; asymmetric labour persists and requires political correction, often female-centring.">
+        <div class="mx-point-dot" style="background:var(--pos-e)"></div>
+        <div class="mx-point-label">Radical feminism</div>
+      </div>
+      <div class="mx-point" style="left:62%;top:75%" data-tip="May combine constructionist political analysis with essentialist spiritual claims about women's needs.">
+        <div class="mx-point-dot" style="background:var(--pos-a)"></div>
+        <div class="mx-point-label">Feminine-centred spirituality</div>
+      </div>
+      <div class="mx-point" style="left:35%;top:62%" data-tip="Biological substrate produces statistical asymmetries that culture amplifies.">
+        <div class="mx-point-dot" style="background:var(--pos-a)"></div>
+        <div class="mx-point-label">Evolutionary psychology</div>
+      </div>
+      <div class="mx-point" style="left:72%;top:42%" data-tip="Integrates structural analysis with attachment and developmental work.">
+        <div class="mx-point-dot" style="background:var(--pos-c)"></div>
+        <div class="mx-point-label">Biopsychosocial feminist therapy</div>
+      </div>
+    </div>
+
+    <div id="mx2" class="matrix">
+      <div class="mx-axis mx-axis-h"></div>
+      <div class="mx-axis mx-axis-v"></div>
+      <div class="mx-label top">Capacity malleable</div>
+      <div class="mx-label bottom">Capacity fixed</div>
+      <div class="mx-label left">Self-responsibility</div>
+      <div class="mx-label right">Other-responsibility</div>
+
+      <div class="mx-point" style="left:20%;top:22%" data-tip="Emotions are one's own, capacity is trainable, partners not obligated.">
+        <div class="mx-point-dot" style="background:var(--pos-b)"></div>
+        <div class="mx-point-label">Stoic / skill-based</div>
+      </div>
+      <div class="mx-point" style="left:78%;top:22%" data-tip="Partner can and must develop holding capacity; obligation to the partner is substantial.">
+        <div class="mx-point-dot" style="background:var(--pos-e)"></div>
+        <div class="mx-point-label">Corrective developmental feminist</div>
+      </div>
+      <div class="mx-point" style="left:22%;top:75%" data-tip="Emotions are one's own; others cannot really be expected to hold deeply.">
+        <div class="mx-point-dot" style="background:var(--pos-b)"></div>
+        <div class="mx-point-label">Dismissive-avoidant</div>
+      </div>
+      <div class="mx-point" style="left:82%;top:75%" data-tip="Partner should be responsible, but men specifically are categorically incapable.">
+        <div class="mx-point-dot" style="background:var(--pos-a)"></div>
+        <div class="mx-point-label">Ontological capacity denial</div>
+      </div>
+      <div class="mx-point" style="left:52%;top:48%" data-tip="Moderate mutual obligation, belief in meaningful growth.">
+        <div class="mx-point-dot" style="background:var(--pos-c)"></div>
+        <div class="mx-point-label">Secure-integrative</div>
+      </div>
+      <div class="mx-point" style="left:35%;top:35%" data-tip="Self-primary, capacity highly trainable, mutual work.">
+        <div class="mx-point-dot" style="background:var(--pos-c)"></div>
+        <div class="mx-point-label">Differentiation model</div>
+      </div>
+      <div class="mx-point" style="left:68%;top:32%" data-tip="Partner primary, capacity highly developmental, mutual growth-in-connection.">
+        <div class="mx-point-dot" style="background:var(--pos-c)"></div>
+        <div class="mx-point-label">Relational-cultural</div>
+      </div>
+      <div class="mx-point" style="left:72%;top:62%" data-tip="Partner expected to hold; capacity assumed present in 'real' love, not actively developed.">
+        <div class="mx-point-dot" style="background:var(--pos-d)"></div>
+        <div class="mx-point-label">Traditional romantic</div>
+      </div>
+    </div>
+
+    <div id="mx3" class="matrix">
+      <div class="mx-axis mx-axis-h"></div>
+      <div class="mx-axis mx-axis-v"></div>
+      <div class="mx-label top">Shadow integrated</div>
+      <div class="mx-label bottom">Shadow projected</div>
+      <div class="mx-label left">Individual-psychological</div>
+      <div class="mx-label right">Structural-political</div>
+
+      <div class="mx-point" style="left:22%;top:28%" data-tip="Individual-level analysis with strong commitment to shadow integration.">
+        <div class="mx-point-dot" style="background:var(--pos-d)"></div>
+        <div class="mx-point-label">Depth psychology</div>
+      </div>
+      <div class="mx-point" style="left:78%;top:25%" data-tip="Structural analysis that accounts for unconscious, desire, and contradiction.">
+        <div class="mx-point-dot" style="background:var(--pos-e)"></div>
+        <div class="mx-point-label">Integrative critical theory</div>
+      </div>
+      <div class="mx-point" style="left:20%;top:72%" data-tip="Individual-level analysis treating contradictory desire as symptom to manage.">
+        <div class="mx-point-dot" style="background:var(--pos-b)"></div>
+        <div class="mx-point-label">Cognitive-behavioural</div>
+      </div>
+      <div class="mx-point" style="left:82%;top:72%" data-tip="Contradictory desire attributed to false consciousness or conditioning.">
+        <div class="mx-point-dot" style="background:var(--pos-a)"></div>
+        <div class="mx-point-label">Ideology-primary</div>
+      </div>
+      <div class="mx-point" style="left:45%;top:48%" data-tip="Multilevel analysis with moderate tolerance for contradiction.">
+        <div class="mx-point-dot" style="background:var(--pos-c)"></div>
+        <div class="mx-point-label">Biopsychosocial</div>
+      </div>
+      <div class="mx-point" style="left:62%;top:38%" data-tip="Political analysis that treats desire as structured by lack, not merely as conditioning.">
+        <div class="mx-point-dot" style="background:var(--pos-e)"></div>
+        <div class="mx-point-label">Psychoanalytic feminism</div>
+      </div>
+      <div class="mx-point" style="left:30%;top:58%" data-tip="Individual-level analysis that may under-attend to structural and unconscious material.">
+        <div class="mx-point-dot" style="background:var(--pos-d)"></div>
+        <div class="mx-point-label">Trauma-focused therapy</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mx-legend">
+    <div class="mx-legend-item"><div class="mx-legend-dot" style="background:var(--pos-a)"></div><span>Essentialist / feminine-centred</span></div>
+    <div class="mx-legend-item"><div class="mx-legend-dot" style="background:var(--pos-b)"></div><span>Constructionist / self-responsibility</span></div>
+    <div class="mx-legend-item"><div class="mx-legend-dot" style="background:var(--pos-c)"></div><span>Integrated / biopsychosocial</span></div>
+    <div class="mx-legend-item"><div class="mx-legend-dot" style="background:var(--pos-d)"></div><span>Depth / somatic / archetypal</span></div>
+    <div class="mx-legend-item"><div class="mx-legend-dot" style="background:var(--pos-e)"></div><span>Political / structural</span></div>
+  </div>
+</section>
+
+<section id="typology" class="section">
+  <h2>Position Typology <span class="num">05</span></h2>
+  <p class="section-intro">Recurring composite positions in the discourse, each characterised by a distinctive combination of commitments across the nine dimensions. These are ideal types; actual positions in the wild combine elements of several.</p>
+
+  <div class="typology">
+    <div class="typo-card">
+      <div class="typo-header">Feminine-centred positions</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Ontological-incapacity position</div>
+        <div class="typo-desc">Holds that men are constitutionally unable to hold feminine emotional range. Combines strong bio-essentialism with strong political framing. Often paired with partnered withdrawal or separatist conclusions.</div>
+        <div class="typo-marker">D1: essentialist · D6: fixed · D5: corrective</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Structural-corrective feminism</div>
+        <div class="typo-desc">Holds that men can develop holding capacity but historical asymmetry requires centring women's needs during repair. Combines constructionism with corrective labour distribution.</div>
+        <div class="typo-marker">D1: constructionist · D6: developmental · D5: corrective</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Sacred feminine essentialism</div>
+        <div class="typo-desc">Grounds gender difference in embodied or spiritual polarity rather than power. Often egalitarian in intent but essentialist in ontology. Appears in tantric, somatic, and neo-pagan contexts.</div>
+        <div class="typo-marker">D1: essentialist · D5: symmetric · D9: somatic-primary</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Unconditional-holding romanticism</div>
+        <div class="typo-desc">Identifies love with unconditional holding; conditional holding reads as failed love. Cross-cuts feminist and traditionalist lines; appears in both discourses.</div>
+        <div class="typo-marker">D2: other-responsibility · D3: all-content · D8: categorical</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Intersectional feminist integration</div>
+        <div class="typo-desc">Situates gendered emotional obligations within race, class, colonial, and sexual orientation axes. Resists universal claims about "women" or "men" without specification of position.</div>
+        <div class="typo-marker">D1: constructionist · D5: context-specific · D7: structural-integrated</div>
+      </div>
+    </div>
+
+    <div class="typo-card">
+      <div class="typo-header">Mutual / integrative positions</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Differentiation-based mutualism</div>
+        <div class="typo-desc">Emphasises inner structure first, broad ecosystem of support, categorical role distinctions. Draws on Bowen family systems and attachment-based therapy.</div>
+        <div class="typo-marker">D2: self-primary · D3: dyadic-source · D4: substantial pre-processing</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Biopsychosocial integration</div>
+        <div class="typo-desc">Treats biology, psychology, and politics as co-constitutive. Holds positions near the middle of most scales. Characteristic of mainstream clinical psychology with feminist sensibility.</div>
+        <div class="typo-marker">D1: interactionist · D7: biopsychosocial · D9: integrative</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Depth-psychological integration</div>
+        <div class="typo-desc">Centres shadow work and contradictions between stated values and desire. Treats ideology as partial, symptom as information. Jungian and psychodynamic lineages.</div>
+        <div class="typo-marker">D7: individual-primary · D9: desire-primary</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Relational-cultural framework</div>
+        <div class="typo-desc">Holds that growth happens in connection rather than independence; partners mutually develop capacity. Reconciles high relational engagement with mutual obligation.</div>
+        <div class="typo-marker">D2: reciprocal · D6: developmental · D7: biopsychosocial</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Polyvagal-informed mutualism</div>
+        <div class="typo-desc">Grounds holding in nervous system states rather than ideology. Both partners attend to regulation as a shared physiological practice, not a gendered obligation.</div>
+        <div class="typo-marker">D4: brief self-containment · D6: developmental · D7: biopsychosocial</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="typology" style="margin-top:1px">
+    <div class="typo-card">
+      <div class="typo-header">Self-containment positions</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Stoic / skill-based individualism</div>
+        <div class="typo-desc">Emotions are one's own to regulate; capacity is trainable; partners not structurally obligated. Found in modern stoicism, cognitive-behavioural self-help, and some men's work.</div>
+        <div class="typo-marker">D2: self-primary · D4: full self-regulation · D6: skill-based</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Avoidant rationalism</div>
+        <div class="typo-desc">Uses differentiation and boundary language to exit emotional contact rather than contain it. Often indistinguishable from healthy self-containment in surface argument but distinct in embodied pattern.</div>
+        <div class="typo-marker">D2: self-primary · D4: full self-regulation · D8: rigid separation</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Libertarian contractualism</div>
+        <div class="typo-desc">Relational obligations are entirely products of explicit agreement; no background duties of holding. Compatible with relationship anarchy and rationalist frameworks.</div>
+        <div class="typo-marker">D2: self-primary · D3: minimal · D8: continuous</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Traditional masculine stoicism</div>
+        <div class="typo-desc">Endorses self-containment as gendered virtue for men specifically; emotional expression read as weakness or loss of composure. Often unexamined rather than argued.</div>
+        <div class="typo-marker">D1: essentialist · D4: full self-regulation · D5: asymmetric</div>
+      </div>
+    </div>
+
+    <div class="typo-card">
+      <div class="typo-header">Structural / political positions</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Structural-political primacy</div>
+        <div class="typo-desc">Individual relational dynamics are primarily effects of patriarchal, colonial, or economic power. Therapy addresses symptoms; structural change addresses causes.</div>
+        <div class="typo-marker">D1: constructionist · D7: structural-primary</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Marxist-feminist materialism</div>
+        <div class="typo-desc">Emotional labour understood within broader political economy; material and relational change are inseparable. Household reproduction theorised as structural.</div>
+        <div class="typo-marker">D5: structural · D7: strong structuralism</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Psychoanalytic-political synthesis</div>
+        <div class="typo-desc">Integrates structural analysis with unconscious dynamics; desire and power are co-produced. Avoids both depoliticised therapy and desiccated politics.</div>
+        <div class="typo-marker">D7: structural-integrated · D9: integrative</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Decolonial relational theory</div>
+        <div class="typo-desc">Reads gendered emotional obligations through colonial and racial histories. Universal gender frameworks analysed as effects of Western modernity.</div>
+        <div class="typo-marker">D1: constructionist · D7: strong structuralism</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bypassing" class="section">
+  <h2>Epistemic Failures <em>in the Discourse</em> <span class="num">06</span></h2>
+  <p class="section-intro">Characteristic moves by which frameworks of any orientation cease to function as inquiry and begin to function as defense. Each represents a reliable signal that a position is being protected rather than examined.</p>
+
+  <div class="typology">
+    <div class="typo-card">
+      <div class="typo-header">Failures on the feminine-centred side</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Universalisation from particular</div>
+        <div class="typo-desc">Sliding from "this partner did not hold me" to "men do not hold" to "men cannot hold." Each step converts evidence about specific persons into claims about ontological category, foreclosing disconfirming data.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Political substitution for grief</div>
+        <div class="typo-desc">Using structural analysis to explain what is also an attachment injury. Structural framing may remain accurate; it becomes defense when it prevents grieving specific relational failures.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Ideologically unfalsifiable withdrawal</div>
+        <div class="typo-desc">Withdrawing from a category of relationship "to heal" in ways that prevent the hypothesis from ever being tested by new data. Healing without re-exposure risks confirming by construction what was originally contingent.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Biological essentialism repurposed</div>
+        <div class="typo-desc">Reclaiming embodied gender claims as if they were liberating, when they re-inscribe the same essentialism that grounded the original oppression in different vocabulary.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Shadow denial via ideology</div>
+        <div class="typo-desc">When erotic desire consistently contradicts stated values, treating desire as mere conditioning rather than as information. The psyche is producing data; refusing to read it prevents integration.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Category immunity</div>
+        <div class="typo-desc">Treating membership in an oppressed category as conferring epistemic infallibility on claims made from within it. Conflates the legitimacy of a standpoint with the correctness of specific assertions.</div>
+      </div>
+    </div>
+
+    <div class="typo-card">
+      <div class="typo-header">Failures on the counter-feminist / male-coded side</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Developmental deflection</div>
+        <div class="typo-desc">Reframing a partner's emotional demand as "underdeveloped masculine" or "unregulated nervous system." The description may be accurate; it becomes defense when it forecloses the possibility that the demand is also legitimate.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Differentiation as exit</div>
+        <div class="typo-desc">Deploying boundary, differentiation, or ecosystem language to avoid emotional contact rather than to contain it. Healthy differentiation requires willingness to be affected; its counterfeit does not.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Performative capacity-claiming</div>
+        <div class="typo-desc">Asserting the ability to "hold anything" from the intellect while lacking the nervous system regulation to actually do so. The claim becomes protective of an image of development rather than reflective of present capacity.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Constructionism as evasion</div>
+        <div class="typo-desc">Using "gender is socially constructed" to deny that one has been specifically conditioned in ways that actually produce limitation. Constructionism is compatible with, not opposed to, taking conditioning seriously.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Psychologism as depoliticisation</div>
+        <div class="typo-desc">Treating structural complaints as individual pathology. "You have a mother wound" may be true and still function to dissolve a legitimate structural observation into personal symptom.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Demand for epistemic labour</div>
+        <div class="typo-desc">Requiring a partner to produce exhaustive justification for emotional demands before engaging them. The demand for proof functions to exhaust the asker and defer the contact indefinitely.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="typology" style="margin-top:1.5rem">
+    <div class="typo-card">
+      <div class="typo-header">Shared structural failures</div>
+
+      <div class="typo-item">
+        <div class="typo-name">Argument as proxy for need</div>
+        <div class="typo-desc">Both sides frequently argue about capacity or obligation rather than articulate the unmet need driving the argument. The theoretical form protects against the vulnerability of the original longing.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Framework overreach</div>
+        <div class="typo-desc">Treating a partial framework — attachment, patriarchy, polyvagal theory, archetypal psychology — as total explanation. Each framework accounts for some variance; no single one accounts for all.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Category error between description and norm</div>
+        <div class="typo-desc">Moving from "this is how things are" to "this is how things should be" without making the normative move explicit. Describing asymmetry does not by itself adjudicate intervention.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Selective falsifiability</div>
+        <div class="typo-desc">Holding one's own framework to evidence-based standards while treating the opposing framework as self-refuting. Rigour applied asymmetrically is not rigour.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Motte-and-bailey retreat</div>
+        <div class="typo-desc">Defending a strong claim; when pressed, retreating to a defensible weaker version; then reasserting the strong claim once pressure eases. Produces the appearance of reasonableness while maintaining an indefensible position.</div>
+      </div>
+    </div>
+
+    <div class="typo-card">
+      <div class="typo-header">Exits from the debate</div>
+
+      <div class="typo-item">
+        <div class="typo-name">First-person articulation of need</div>
+        <div class="typo-desc">Replacing ontological claims about categories with first-person ones about experience. The latter is falsifiable by further experience; the former is not. The move is from "men cannot" to "I have not yet been."</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Disaggregation of dimensions</div>
+        <div class="typo-desc">Separating positions on distinct dimensions that ideology tends to bundle. One can be constructionist on D1 and still acknowledge asymmetric labour on D5; these need not move together.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Reading contradiction as information</div>
+        <div class="typo-desc">Treating the gap between stated position and actual behaviour — especially erotic behaviour — as data about where integration is still needed, rather than as failure of either side of the contradiction.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Tolerating ongoing incompleteness</div>
+        <div class="typo-desc">Accepting that no existing framework fully explains the phenomenon, and that provisional commitments will remain revisable. This is not relativism; it is intellectual adequacy to the actual complexity.</div>
+      </div>
+
+      <div class="typo-item">
+        <div class="typo-name">Distinguishing claim-type</div>
+        <div class="typo-desc">Separating descriptive claims (what is), predictive claims (what will happen if), normative claims (what should be), and expressive claims (what is felt). Conflation of claim-types accounts for a substantial share of talking-past in the discourse.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Discourse analysis · scientific edition</span>
+  <span>Hover any point for detail · Navigate via section tabs</span>
+</footer>
+
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+  function showSec(e, id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    e.target.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function showMatrix(e, id) {
+    document.querySelectorAll('.matrix').forEach(m => m.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.matrix-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+  }
+
+  const tooltip = document.getElementById('tooltip');
+  document.querySelectorAll('[data-tip]').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      const name = el.querySelector('.marker-label, .mx-point-label');
+      tooltip.innerHTML = (name ? '<strong>' + name.textContent.trim() + '</strong>' : '') + el.dataset.tip;
+      tooltip.classList.add('visible');
+    });
+    el.addEventListener('mousemove', (e) => {
+      tooltip.style.left = (e.clientX + 14) + 'px';
+      tooltip.style.top = (e.clientY - 10) + 'px';
+    });
+    el.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+  });
+</script>
+
+</body>
+</html>
